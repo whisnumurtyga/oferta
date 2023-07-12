@@ -1,0 +1,49 @@
+/* todo P R I M A R Y  */
+
+.bg-primary {
+    background-color: #625757 !important;
+}
+
+.btn-outline-primary {
+    border-color: #625757 !important;
+    color: #625757;
+}
+
+.btn-outline-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(98, 87, 87, 0.3) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: #625757 !important;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #625757 !important;
+    border: none !important;
+}
+.btn-primary:focus, .btn-primary:active {
+    border-color: #625757 !important;
+}
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(98, 87, 87, 0.3) !important;
+}
+
+.text-primary {
+    color: #625757 !important;
+    border: none !important;
+}
+.text-primary:focus, .text-primary:active {
+    border-color: #3F2305 !important;
+}
+.text-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(98, 87, 87, 0.3) !important;
+}
+
+
+.navbar
+
+
+/* todo SECONDARY */
+
+/

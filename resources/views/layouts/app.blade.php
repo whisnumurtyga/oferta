@@ -7,6 +7,7 @@
     <title>@yield('title')</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     {{-- Override Bootstrap --}}
     <link rel="stylesheet" href="{{ asset('css/bootstrap-override.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -22,6 +23,9 @@
             margin-top: 70px;
         }
     </style>
+
+    @livewireStyles
+
 </head>
 
 <body>
@@ -41,7 +45,11 @@
 
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Letakkan perpustakaan Bootstrap JavaScript dan dependensinya -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    @livewireStyles
+
 </body>
 
 </html>

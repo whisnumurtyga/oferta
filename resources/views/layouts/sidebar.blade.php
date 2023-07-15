@@ -23,16 +23,21 @@
                     Suppliers
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('members') ? 'active' : '' }}" href="{{ route('members') }}">
                     Members
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('users') ? 'active' : '' }}" href="{{ route('users') }}">
+                    Users
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}" href="{{ route('profile') }}">
                     Profile
                 </a>
-            </li> --}}
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">
                     Logout

@@ -29,4 +29,16 @@ Route::get('/suppliers', function () {
     return view('suppliers');
 })->name('suppliers');
 
+Route::get('/users', function () {
+    return view('users');
+})->name('users');
+
+Route::get('/members', function () {
+    return view('members');
+})->name('members');
+
+Route::get('/profile', function () {
+    return view('profile');
+})->name('profile');
+
 

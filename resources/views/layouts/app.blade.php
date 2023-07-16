@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    @livewireStyles
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
@@ -23,8 +24,6 @@
             margin-top: 70px;
         }
     </style>
-
-    @livewireStyles
 
 </head>
 
@@ -48,8 +47,13 @@
     <!-- Letakkan perpustakaan Bootstrap JavaScript dan dependensinya -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    @livewireStyles
-
+    <!-- Include Livewire Scripts -->
+    @livewireScripts
+    <script>
+        Livewire.on('hideAddUserModal', () => {
+            $('#addUserModal').modal('hide');
+        });
+    </script>
 </body>
 
 </html>

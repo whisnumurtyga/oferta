@@ -13,6 +13,7 @@
             Add User
         </button>
 
+
         @livewire('user-table')
     </div>
 @stop

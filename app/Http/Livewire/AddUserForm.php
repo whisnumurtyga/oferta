@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
 
@@ -12,9 +13,11 @@ class AddUserForm extends Component
     public $username;
     public $email;
     public $password;
+    public $roles;
 
     public function render()
     {
+        $this->roles = Role::all();
         return view('livewire.add-user-form');
     }
 

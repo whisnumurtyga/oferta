@@ -9,16 +9,19 @@
                     {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-circle"></i></button> --}}
                 </div>
                 <div class="modal-body">
+                    {{-- {!! $roles !!} --}}
                     <form>
                         <div class="mb-3">
                             <label for="role_id" class="form-label">Role</label>
                             <select id="role_id" name="role_id" class="form-select custom-select" wire:model.debounce.10000ms="role_id">
                                 <option value="0" selected>Pilih Role</option>
-                                <option value="2">Admin</option>
-                                <option value="3">Kasir</option>
-                                {{-- @foreach ($roles as $role)
-                                    <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
-                                @endforeach --}}
+                                {{-- <option value="2">Admin</option>
+                                <option value="3">Kasir</option> --}}
+                                @foreach ($roles as $role)
+                                    @if ($role->role_name != "Owner")
+                                        <option value="{{ $role->role_id }}">{{ $role->role_name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">

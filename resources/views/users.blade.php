@@ -3,7 +3,9 @@
 @section('title', 'Oferta - Users')
 
 @section('content')
-    <h1 class="text-primary">This is the Users Page</h1>
+
+<h1 class="text-primary">This is the Users Page</h1>
+        {{-- <livewire:add-user-form :roles="$roles" /> --}}
         @livewire("add-user-form")
 
 

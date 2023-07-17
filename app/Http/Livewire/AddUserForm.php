@@ -17,8 +17,14 @@ class AddUserForm extends Component
 
     public function render()
     {
-        $this->roles = Role::all();
+        $this->getAllRoles();
         return view('livewire.add-user-form');
+    }
+
+
+    public function getAllRoles()
+    {
+        $this->roles = Role::all();
     }
 
     public function createUser()

@@ -35,9 +35,18 @@
     font-size: 20px;
 }
 
-.pagination .page-item.active .page-link {
-    background-color: #625757 !important;
-    border-color: #fefefe !important;
-  }
+.page-item.active .page-link {
+    background-color: #625757;
+    border-color: #625757;
+    color: #fefefe;
+}
+
+
+.page-item .page-link {
+    background-color: #fefefe;
+    border-color: #625757;
+    color: #000000;
+}
+
 
 

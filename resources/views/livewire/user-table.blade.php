@@ -3,22 +3,37 @@
     {{-- {{ dd($users) }} --}}
     <div class="">
         <div class="mt-2 py-3">
-            <input  wire:model="search" type="text" class="form-control" placeholder="Search">
+            <div class="row">
+                <div class="col-lg-5">
+                    <input  wire:model="search" type="text" class="form-control" placeholder="Search">
+                </div>
+                <div class="col-lg-2">
+                    <div class="">
+                        {{-- <label for="role_id" class="form-label">Filter by Role</label> --}}
+                        <select id="role_id" name="role_id" class="form-select custom-select" wire:model.debounce.100000ms="role_id">
+                            <option value="0" selected>Pilih Role</option>
+                        </select>
+                    </div>
+                    {{-- <input  wire:model="search" type="text" class="form-control" placeholder="Search"> --}}
+                </div>
+                <div class="col-lg-5">
+                    <div class="d-flex justify-content-center">
+                        {{ $users->links('vendor.pagination.custom-pagination') }}
+                    </div>
+                </div>
+            </div>
             {{-- {{ $search }} --}}
             <table class="table table-hover mx-auto mt-2">
                 <thead>
-                    <tr class="primary">
-                        <th scope="col">#</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col" class="">Action</th>
+                    <tr class="text-center" style="background-color: #625757;">
+                        <th scope="col" class="text-white">#</th>
+                        <th scope="col" class="text-white">Role</th>
+                        <th scope="col" class="text-white">Name</th>
+                        <th scope="col" class="text-white">Username</th>
+                        <th scope="col" class="text-white">Email</th>
+                        <th scope="col" class="text-white">Action</th>
                     </tr>
                 </thead>
-                <div class="d-flex justify-content-center">
-                    {{ $users->links('vendor.pagination.custom-pagination') }}
-                </div>
                 <tbody>
                     {{-- {{ dd($users) }} --}}
                     @foreach ($users as $index => $user)

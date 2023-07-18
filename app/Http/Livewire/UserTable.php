@@ -2,31 +2,53 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
 
 class UserTable extends Component
 {
     public $users;
-    public $roles;
+    public $userIdToDelete;
+    public $showModal = false;
+
+    protected $listeners = ['userCreated' => 'getAllUsers'];
+
+    public function mount()
+    {
+        $this->getAllUsers();
+    }
 
     public function render()
     {
-        $this->getAllUsers();
-        // $this->getAllRoles();
         return view('livewire.user-table');
     }
-
-    // public function getAllRoles()
-    // {
-    //     $this->roles = User::with('role')->get();
-    // }
 
     public function getAllUsers()
     {
         $this->users = User::with('role')->get();
     }
+
+
+
+    public function deleteUser()
+    {
+        dd($this->userIdToDelete);
+        User::find($this->userIdToDelete)->delete();
+        $this->getAllUsers();
+    }
+
+    public function openModal($userId)
+    {
+        $this->showModal = true;
+        $this->userIdToDelete = $userId;
+    }
+
+
+    public function refreshUserTable()
+    {
+        $this->getAllUsers();
+    }
+
 
 
 }

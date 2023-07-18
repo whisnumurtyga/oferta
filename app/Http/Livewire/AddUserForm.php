@@ -21,7 +21,6 @@ class AddUserForm extends Component
         return view('livewire.add-user-form');
     }
 
-
     public function getAllRoles()
     {
         $this->roles = Role::all();
@@ -29,7 +28,6 @@ class AddUserForm extends Component
 
     public function createUser()
     {
-        // dd("Masuk fungsi");
         User::create([
             'role_id' => $this->role_id,
             'name' => $this->name,
@@ -38,7 +36,9 @@ class AddUserForm extends Component
             'password' => $this->password
         ]);
 
-
+        $this->emit('userCreated'); // Emit event untuk memberitahu bahwa pengguna baru telah dibuat
         $this->emit('hideAddUserModal');
     }
 }
+
+?>

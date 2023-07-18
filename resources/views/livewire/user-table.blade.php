@@ -9,9 +9,13 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="">
-                        {{-- <label for="role_id" class="form-label">Filter by Role</label> --}}
-                        <select id="role_id" name="role_id" class="form-select custom-select" wire:model.debounce.100000ms="role_id">
+                        <select id="role_id" name="role_id" class="form-select custom-select" wire:model="role_id" wire:change="getAllUsers">
                             <option value="0" selected>Pilih Role</option>
+                            @foreach ($roles as $role)
+                                @if ($role->role_name != "Owner")
+                                    <option value="{{ $role->id }}" ">{{ $role->role_name }}</option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                     {{-- <input  wire:model="search" type="text" class="form-control" placeholder="Search"> --}}

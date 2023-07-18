@@ -15,15 +15,16 @@ class AddUserForm extends Component
     public $password;
     public $roles;
 
+
     public function render()
     {
-        $this->getAllRoles();
+        $this->roles = $this->getAllRoles();
         return view('livewire.add-user-form');
     }
 
     public function getAllRoles()
     {
-        $this->roles = Role::all();
+        return Role::all();
     }
 
     public function createUser()
@@ -40,6 +41,7 @@ class AddUserForm extends Component
         $this->emit('hideAddUserModal');
         $this->dispatchBrowserEvent('create-user-alert');
     }
+
 }
 
 ?>

@@ -1,4 +1,4 @@
-
+/* TODO SIDEBAR */
 .sidebar {
     position: fixed;
     top: 0;
@@ -32,21 +32,43 @@
     color: white;
     font-weight: bold;
     letter-spacing: 1px;
-    font-size: 20px;
+    font-size: 20px ;
 }
 
+
+/* Todo PAGINATION */
 .page-item.active .page-link {
-    background-color: #625757;
-    border-color: #625757;
-    color: #fefefe;
+    background-color: #625757 !important;
+    border-color: #ced4da !important;
+    color: #fefefe !important;
 }
 
 
 .page-item .page-link {
-    background-color: #fefefe;
-    border-color: #625757;
-    color: #000000;
+    background-color: #fefefe !important;
+    border-color: #ced4da !important;
+    color: #000000 !important;
+}
+
+.page-item .page-link:focus{
+    background-color: #fefefe !important;
+    border-color: #ced4da !important;
+    color: #000000 !important;
+    box-shadow: 0 0 0 0.2rem rgba(98, 87, 87, 0.3) !important;
+
+}
+
+/* Todo FORM CONTROL */
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(98, 87, 87, 0.3) !important;
+    outline: none !important;
+    border: none !important;
 }
 
 
-
+.form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(98, 87, 87, 0.3) !important;
+    outline: none !important;
+    border: none !important;
+}

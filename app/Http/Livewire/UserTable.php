@@ -4,14 +4,21 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class UserTable extends Component
 {
-    public $users;
-    public $userIdToDelete;
-    public $showModal = false;
+    use WithPagination;
 
-    protected $listeners = ['userCreated' => 'getAllUsers'];
+    public $userIdDelete;
+    public $search;
+    public $paginationTheme = 'bootstrap';
+
+    protected $listeners = [
+        'userCreated' => 'getAllUsers',
+        'deleteUser',
+        'deleteConfirmed' => 'deleteUser'
+    ];
 
     public function mount()
     {
@@ -20,35 +27,36 @@ class UserTable extends Component
 
     public function render()
     {
-        return view('livewire.user-table');
+        return view('livewire.user-table', [
+            'users' => $this->getAllUsers()
+        ]);
     }
 
     public function getAllUsers()
     {
-        $this->users = User::with('role')->get();
+        return User::with('role')->when($this->search, function ($q) {
+            $q->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('username', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%');
+        })->paginate(10);
     }
 
-
+    public function deleteConfirmation($userId)
+    {
+        $this->userIdDelete = $userId;
+        $this->dispatchBrowserEvent('show-delete-confirmation');
+    }
 
     public function deleteUser()
     {
-        dd($this->userIdToDelete);
-        User::find($this->userIdToDelete)->delete();
+        User::find($this->userIdDelete)->delete();
         $this->getAllUsers();
+
+        $this->dispatchBrowserEvent('user-deleted');
     }
 
-    public function openModal($userId)
+    public function updatedSearch()
     {
-        $this->showModal = true;
-        $this->userIdToDelete = $userId;
+        $this->resetPage();
     }
-
-
-    public function refreshUserTable()
-    {
-        $this->getAllUsers();
-    }
-
-
-
 }

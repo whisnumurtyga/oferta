@@ -44,6 +44,11 @@
 .navbar
 
 
-/* todo SECONDARY */
+/* todo Table */
 
-/
+/* Gaya saat hover */
+body > div.container-fluid.mt-navbar > div > main > div.mt-5.col-lg-8.py-5 > div > div > div > table.table-hover tbody tr:hover {
+    background-color: #625757 !important; /* Ganti dengan warna yang diinginkan */
+    color: white !important;
+}
+

@@ -38,6 +38,7 @@ class AddUserForm extends Component
 
         $this->emit('userCreated'); // Emit event untuk memberitahu bahwa pengguna baru telah dibuat
         $this->emit('hideAddUserModal');
+        $this->dispatchBrowserEvent('create-user-alert');
     }
 }
 

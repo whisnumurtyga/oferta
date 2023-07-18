@@ -3,7 +3,6 @@
 
 <head>
     @livewireStyles
-    <script src="{{ mix('js/app.js') }}"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +29,8 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
     @include('layouts.navbar')
@@ -58,6 +59,6 @@
             $('#addUserModal').modal('hide');
         });
     </script>
-</body>
 
+</body>
 </html>

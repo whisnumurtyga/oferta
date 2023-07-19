@@ -14,7 +14,6 @@ class UserTable extends Component
     public $role_id;
     public $userIdDelete;
     public $search;
-    public $paginationTheme = 'bootstrap';
 
     protected $listeners = [
         'userCreated' => 'getAllUsers',
@@ -41,10 +40,13 @@ class UserTable extends Component
                 $q->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('username', 'like', '%' . $this->search . '%')
                     ->orWhere('email', 'like', '%' . $this->search . '%');
-            })->paginate(10);
+            })
+                ->orderByDesc('id')
+                ->paginate(10);
         } else {
             return User::with('role')
                 ->where('role_id', $this->role_id)
+                ->orderByDesc('id')
                 ->paginate(10);
         }
     }
@@ -63,10 +65,6 @@ class UserTable extends Component
         $this->dispatchBrowserEvent('user-deleted');
     }
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
 
 
 

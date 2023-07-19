@@ -1,10 +1,10 @@
 <div>
     {{-- {{ dd($roles) }} --}}
-    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal fade" id="detailUserModal" tabindex="-1" aria-labelledby="detailUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addUserModalLabel">Add User</h1>
+                    <h1 class="modal-title fs-5" id="detailUserModalLabel">Detail User</h1>
                 </div>
                 <div class="modal-body">
                     <form wire:>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="createUser">Add Data</button>
+                    <button type="button" class="btn btn-primary" wire:click="createUser">Detail Data</button>
                 </div>
             </div>
         </div>
@@ -55,58 +55,3 @@
 </div>
 
 
-{{-- <script>
-    function validateAndCreateUser() {
-        // Ambil nilai input dari formulir menggunakan JavaScript
-        var role_id = document.getElementById('role_id').value;
-        var name = document.getElementById('name').value;
-        var username = document.getElementById('username').value;
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
-
-        // Lakukan validasi menggunakan JavaScript
-        if (role_id === '0') {
-            role_id_error.textContent = 'Please select a role';
-            role_id_error.style.display = 'block';
-            return;
-        } else {
-            role_id_error.style.display = 'none';
-        }
-
-        if (name.trim() === '') {
-            name_error.textContent = 'Name is required';
-            name_error.style.display = 'block';
-            return;
-        }else {
-            name_error.style.display = 'none';
-        }
-
-        if (username.trim() === '') {
-            username_error.textContent = 'Username is required';
-            username_error.style.display = 'block';
-            return;
-        } else {
-            username_error.style.display = 'none';
-        }
-
-
-        if (email.trim() === '') {
-            email_error.textContent = 'Email is required';
-            email_error.style.display = 'block';
-            return;
-        } else {
-            email_error.style.display = 'none';
-        }
-
-        if (password.trim() === '') {
-            password_error.textContent = 'Email is required';
-            password_error.style.display = 'block';
-            return;
-        } else {
-            password_error.style.display = 'none';
-        }
-
-        // Lakukan aksi setelah validasi sukses, misalnya kirim data ke komponen Livewire
-        Livewire.emit('createUser', role_id, name, username, email, password);
-    }
-</script> --}}

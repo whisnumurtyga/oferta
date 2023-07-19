@@ -72,3 +72,9 @@
     outline: none !important;
     border: none !important;
 }
+
+
+/* Todo BUTTON */
+.btn-outline-danger:hover {
+    color: white !important;
+}

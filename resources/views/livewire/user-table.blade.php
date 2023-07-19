@@ -1,6 +1,7 @@
 <div >
-    {{ $search }}
+    {{-- {{ $search }} --}}
     {{-- {{ dd($users) }} --}}
+
     <div class="">
         <div class="mt-2 py-3">
             <div class="row">
@@ -50,21 +51,23 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->email }}</td>
-                            <td colspan="3">
-                                <div class="row p-1">
+                            <td colspan="3" class="text-white">
+                                <div class="row p-1 d-flex justify-content-center align-items-center">
                                     <div class="col-4">
-                                        <button type="button" class="btn btn-outline-primary">
-                                            <i class="bi bi-eye-fill"></i>
+                                        <button type="button" class="btn btn-sm  btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailUserModal">
+                                            detail
                                         </button>
                                     </div>
                                     <div class="col-4">
-                                        <button type="button" class="btn btn-outline-warning">
-                                            <i class="bi bi-pencil-fill"></i>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                            edit
                                         </button>
                                     </div>
                                     <div class="col-4">
-                                        <a wire:click.prevent="deleteConfirmation({{ $user->id }})" class="btn btn-outline-danger delete-button">
-                                            <i class="bi bi-trash-fill"></i>
+                                        <a wire:click.prevent="deleteConfirmation({{ $user->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
+                                            {{-- <i class="bi bi-trash-fill"></i> --}}
+                                            delete
                                         </a>
                                     </div>
                                 </div>
@@ -77,7 +80,8 @@
     </div>
 
 
-    </div>
+    @livewire('edit-user-form')
+    @livewire('detail-user-form')
 
 </div>
 

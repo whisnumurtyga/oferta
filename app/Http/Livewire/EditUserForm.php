@@ -7,7 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\Livewire;
 
-class AddUserForm extends Component
+class EditUserForm extends Component
 {
     public $role_id;
     public $name;
@@ -18,7 +18,7 @@ class AddUserForm extends Component
     public function render()
     {
         $this->roles = $this->getAllRoles();
-        return view('livewire.add-user-form');
+        return view('livewire.edit-user-form');
     }
 
     public function getAllRoles()

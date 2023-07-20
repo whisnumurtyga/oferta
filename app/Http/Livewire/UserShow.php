@@ -26,12 +26,13 @@ class UserShow extends Component
     {
         return [
             'role_id' => 'required',
-            'name' => 'required|string|min:6',
-            'username' => 'required|min:6',
-            'email' => ['required','email'],
+            'name' => 'required|string|min:6|alpha',
+            'username' => 'required|min:6|lowercase|alpha_num|unique:users,username',
+            'email' => ['required','email','unique:users,email'],
             'password' => 'required|min:6',
         ];
     }
+
 
     public function render()
     {

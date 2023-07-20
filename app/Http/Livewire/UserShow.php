@@ -7,12 +7,21 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isNull;
+
 class UserShow extends Component
 {
     use WithPagination;
 
     public $search, $role_id_filter, $role_id, $name, $username, $email, $password;
+    public $userId;
 
+    protected $listeners = [
+        'deleteConfirmed' => 'deleteUser'
+    ];
+
+    // Todo ==>  CREATE AND READ  <==
     protected function rules()
     {
         return [
@@ -32,27 +41,27 @@ class UserShow extends Component
         ]);
     }
 
-public function getUsers()
-{
-    $query = User::with('role')
-        ->orderByDesc('id');
+    public function getUsers()
+    {
+        $query = User::with('role')
+            ->orderByDesc('id');
 
-    if ($this->role_id_filter > 1) {
-        $query->where('role_id', $this->role_id_filter);
+        if ($this->role_id_filter > 0) {
+            $query->where('role_id', $this->role_id_filter);
+        }
+
+        if ($this->search) {
+            $query->where(function ($q) {
+                $q->where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('username', 'like', '%' . $this->search . '%')
+                    ->orWhere('email', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $users = $query->get();
+        return $users;
+
     }
-
-    if ($this->search) {
-        $query->where(function ($q) {
-            $q->where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('username', 'like', '%' . $this->search . '%')
-                ->orWhere('email', 'like', '%' . $this->search . '%');
-        });
-    }
-
-    $users = $query->paginate(10);
-
-    return $users;
-}
 
 
     public function updated($fields)
@@ -80,4 +89,23 @@ public function getUsers()
         $this->email = "";
         $this->password = "";
     }
+
+
+
+    // Todo DELETE
+    public function deleteConfirmation($userId)
+    {
+        // dd($userId);
+        $this->userId = $userId;
+        $this->dispatchBrowserEvent('show-delete-confirmation');
+    }
+
+    public function deleteUser()
+    {
+        User::find($this->userId)->delete();
+        $this->getUsers();
+
+        $this->dispatchBrowserEvent('user-deleted');
+    }
+
 }

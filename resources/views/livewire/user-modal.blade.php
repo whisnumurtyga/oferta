@@ -76,4 +76,62 @@
         </div>
     </div>
 
+
+    {{-- Todo DELETE MODAL --}}
+    <div>
+        <div class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Confirmation</h5>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure want to delete?
+                    </div>
+                    <div class="modal-footer">
+                        <button wire:click="deleteUser" type="button" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>

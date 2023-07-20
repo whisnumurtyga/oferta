@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .mt-navbar {
             margin-top: 70px;
@@ -52,13 +52,15 @@
     <!-- Letakkan perpustakaan Bootstrap JavaScript dan dependensinya -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script>
+        window.addEventListener('close-modal', event => {
+            $('#addUserModal').modal('hide');
+            $('#updateStudentModal').modal('hide');
+            $('#deleteStudentModal').modal('hide');
+        })
+    </script>
     <!-- Include Livewire Scripts -->
     @livewireScripts
-    <script>
-        Livewire.on('hideAddUserModal', () => {
-            $('#addUserModal').modal('hide');
-        });
-    </script>
 
 </body>
 </html>

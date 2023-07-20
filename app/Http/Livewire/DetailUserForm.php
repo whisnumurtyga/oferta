@@ -15,6 +15,24 @@ class DetailUserForm extends Component
     public $email;
     public $password;
     public $roles;
+    public $idUser;
+
+    public $isOpen = false;
+
+
+    protected $listeners = [
+        'showUserDetails',
+        'toggleModal'
+    ];
+
+    public function toggleModal($id)
+    {
+        $this->idUser = $id;
+        $this->isOpen = !$this->isOpen;
+        $this->showUserDetails($id);
+    }
+
+
     public function render()
     {
         $this->roles = $this->getAllRoles();
@@ -52,6 +70,18 @@ class DetailUserForm extends Component
         $this->email = "";
         $this->password = "";
     }
+    public function showUserDetails($id)
+    {
+        $userData = User::where('id', $id)->first();
+        $this->roles = $this->getAllRoles();
+        $this->role_id = $userData->role_id;
+        $this->name = $userData->name;
+        $this->username = $userData->username;
+        $this->email = $userData->email;
+        // dd("masuk show user detrail");
+    }
+
+
 }
 
 ?>

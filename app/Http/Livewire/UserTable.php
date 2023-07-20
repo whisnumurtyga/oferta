@@ -12,8 +12,10 @@ class UserTable extends Component
     use WithPagination;
 
     public $role_id;
-    public $userIdDelete;
+    public $userId;
     public $search;
+
+    public $userData;
 
     protected $listeners = [
         'userCreated' => 'getAllUsers',
@@ -37,9 +39,9 @@ class UserTable extends Component
     {
         if($this->role_id <= 1) {
             return User::with('role')->when($this->search, function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('username', 'like', '%' . $this->search . '%')
-                    ->orWhere('email', 'like', '%' . $this->search . '%');
+                $q->where('name', 'like', '%' . $this->search . '%');
+                    // ->orWhere('username', 'like', '%' . $this->search . '%')
+                    // ->orWhere('email', 'like', '%' . $this->search . '%');
             })
                 ->orderByDesc('id')
                 ->paginate(10);
@@ -53,19 +55,28 @@ class UserTable extends Component
 
     public function deleteConfirmation($userId)
     {
-        $this->userIdDelete = $userId;
+        $this->userId = $userId;
         $this->dispatchBrowserEvent('show-delete-confirmation');
     }
 
     public function deleteUser()
     {
-        User::find($this->userIdDelete)->delete();
+        User::find($this->userId)->delete();
         $this->getAllUsers();
 
         $this->dispatchBrowserEvent('user-deleted');
     }
 
 
+    public function getUserById($id)
+    {
+        $this->userId = $id;
+        $this->emit('showUserDetails', $this->userId);
+    }
 
+    public function toggleModal($id)
+    {
+        $this->emit('toggleModal', $id);
+    }
 
 }

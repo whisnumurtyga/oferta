@@ -34,8 +34,8 @@
                         <th scope="col" class="text-white">#</th>
                         <th scope="col" class="text-white">Role</th>
                         <th scope="col" class="text-white">Name</th>
-                        <th scope="col" class="text-white">Username</th>
-                        <th scope="col" class="text-white">Email</th>
+                        {{-- <th scope="col" class="text-white">Username</th>
+                        <th scope="col" class="text-white">Email</th> --}}
                         <th scope="col" class="text-white">Action</th>
                     </tr>
                 </thead>
@@ -49,18 +49,18 @@
                             <th scope="row">{{ $iteration }}</th>
                             <td>{{ $user->role->role_name }}</td>
                             <td>{{ $user->name }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->email }}</td>
+                            {{-- <td>{{ $user->username }}</td>
+                            <td>{{ $user->email }}</td> --}}
                             <td colspan="3" class="text-white">
                                 <div class="row p-1 d-flex justify-content-center align-items-center">
                                     <div class="col-4">
-                                        <button type="button" class="btn btn-sm  btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailUserModal">
+                                        <button type="button" class="btn btn-sm  btn-outline-primary" data-bs-toggle="modal" data-bs-target="#detailUserModal" wire:click.prevent="toggleModal({{ $user->id }})">
                                             detail
                                         </button>
                                     </div>
                                     <div class="col-4">
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                        <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editUserModal" >
                                             edit
                                         </button>
                                     </div>

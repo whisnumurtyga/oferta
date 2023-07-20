@@ -16,7 +16,7 @@ class UsersSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        foreach (range(1,   100) as $index) {
+        foreach (range(1,   300) as $index) {
             DB::table('users')->insert([
                 'role_id' => rand(2,3),
                 'name' => $faker->name,

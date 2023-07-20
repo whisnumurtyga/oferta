@@ -5,17 +5,19 @@ namespace App\Http\Livewire;
 use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
-use Livewire\WithPagination;
-
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
 
 class UserShow extends Component
 {
-    use WithPagination;
 
     public $search, $role_id_filter, $role_id, $name, $username, $email, $password;
+    public $new_role_id, $new_name, $new_username, $new_email, $new_password;
+    public $perPage = 30;
+    public $currentPage = 1;
     public $userId;
+    public $userUpdate;
+
+    public $editModalClicked = False;
+    public $addModalClicked = False;
 
     protected $listeners = [
         'deleteConfirmed' => 'deleteUser'
@@ -24,13 +26,25 @@ class UserShow extends Component
     // Todo ==>  CREATE AND READ  <==
     protected function rules()
     {
-        return [
-            'role_id' => 'required',
-            'name' => 'required|string|min:6|alpha',
-            'username' => 'required|min:6|lowercase|alpha_num|unique:users,username',
-            'email' => ['required','email','unique:users,email'],
-            'password' => 'required|min:6',
-        ];
+        // Mengabaikan validasi password pada pembaruan
+        if ($this->editModalClicked == True) {
+            $rules = [
+                'new_role_id' => 'required',
+                'new_name' => 'required|string|min:6|alpha',
+                'new_username' => 'required|min:6|lowercase|alpha_num',
+                'new_email' => ['required', 'email'],
+            ];
+        } else {
+            $rules = [
+                'role_id' => 'required',
+                'name' => 'required|string|min:6|alpha',
+                'username' => 'required|min:6|lowercase|alpha_num|unique:users,username',
+                'email' => ['required', 'email', 'unique:users,email'],
+                'password' => 'required|min:6',
+            ];
+        }
+
+        return $rules;
     }
 
 
@@ -60,8 +74,8 @@ class UserShow extends Component
         }
 
         $users = $query->get();
-        return $users;
 
+        return $users;
     }
 
 
@@ -72,6 +86,8 @@ class UserShow extends Component
 
     public function addUser()
     {
+        $this->addModalClicked = True;
+        $this->editModalClicked = False;
         // dd("hola");
         $validatedData = $this->validate();
         User::create($validatedData);
@@ -80,6 +96,12 @@ class UserShow extends Component
 
         $this->dispatchBrowserEvent('create-user-alert');
         $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function addModalClosed()
+    {
+        $this->addModalClicked = False;
+        $this->resetInput();
     }
 
     public function resetInput()
@@ -108,5 +130,46 @@ class UserShow extends Component
 
         $this->dispatchBrowserEvent('user-deleted');
     }
+
+
+    // Todo EDIT
+
+    public function editUser(int $userId)
+    {
+        $this->addModalClicked = False;
+        $this->editModalClicked = True;
+
+        $this->userUpdate = User::find($userId);
+
+        $this->userId = $userId;
+        $this->new_role_id = $this->userUpdate->role_id;
+        $this->new_name = $this->userUpdate->name;
+        $this->new_username = $this->userUpdate->username;
+        $this->new_email = $this->userUpdate->email;
+    }
+
+    public function updateUser()
+    {
+        $validatedData = $this->validate();
+
+        User::where('id', $this->userId)->update([
+            'role_id' => $validatedData['new_role_id'],
+            'name' => $validatedData['new_name'],
+            'username' => $validatedData['new_username'],
+            'email' => $validatedData['new_email'],
+        ]);
+
+        $this->resetInput();
+        $this->dispatchBrowserEvent('user-updated');
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function editModalClosed()
+    {
+        $this->editModalClicked = False;
+        $this->resetInput();
+    }
+
+
 
 }

@@ -55,7 +55,7 @@
     <script>
         window.addEventListener('close-modal', event => {
             $('#addUserModal').modal('hide');
-            $('#updateStudentModal').modal('hide');
+            $('#updateUserModal').modal('hide');
             $('#deleteStudentModal').modal('hide');
         })
     </script>

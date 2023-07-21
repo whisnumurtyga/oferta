@@ -59,6 +59,7 @@
             $('#deleteStudentModal').modal('hide');
 
             $('#addMemberModal').modal('hide');
+            $('#editMemberModal').modal('hide');
 
         })
     </script>

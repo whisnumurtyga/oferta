@@ -24,7 +24,7 @@
                             <label for="role_id" class="form-label">Role</label>
                             <select id="role_id" name="role_id" class="form-select custom-select" wire:model="role_id">
                                 <option value="0" selected>Pilih Role</option>
-                                @foreach ($roles as $role)
+                                @foreach ($oles as $role)
                                     @if ($role->role_name != "Owner")
                                         <option value="{{ $role->id }}">{{ $role->role_name }}</option>
                                     @endif

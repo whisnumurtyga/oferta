@@ -3,5 +3,7 @@
 @section('title', 'Oferta - Members')
 
 @section('content')
-    <h1 class="text-primary">This is the Members Page</h1>
+    <div class="mt-2 col-lg-" >
+        @livewire('member-show')
+    </div>
 @stop

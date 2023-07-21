@@ -16,7 +16,7 @@
                     <div class="col-lg-2">
                         <div class="">
                             <select id="role_id_filter" name="role_id_filter" class="form-select custom-select" wire:model="role_id_filter" >
-                                <option value="0" selected>Pilih Role</option>
+                                <option value="0" selected>Select Role</option>
                                 @foreach ($roles as $role)
                                     @if ($role->role_name != "Owner")
                                         <option value="{{ $role->id }}">{{ $role->role_name }}</option>

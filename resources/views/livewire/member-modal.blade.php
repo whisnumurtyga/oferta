@@ -1,6 +1,6 @@
 <div>
     {{-- TODO ==> INSERT MODAL <=== --}}
-    <div wire:ignore.self class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             {{-- @if ($errors->any())
                 {{ dd($errors) }}
@@ -16,24 +16,10 @@
             @endif --}}
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addUserModalLabel">Add User</h1>
+                    <h1 class="modal-title fs-5" id="addMemberModalLabel">Add Member</h1>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="addUser" novalidate>
-                        <div class="mb-1">
-                            <label for="role_id" class="form-label">Role</label>
-                            <select id="role_id" name="role_id" class="form-select custom-select" wire:model="role_id">
-                                <option value="0" selected>Pilih Role</option>
-                                @foreach ($roles as $role)
-                                    @if ($role->role_name != "Owner")
-                                        <option value="{{ $role->id }}">{{ $role->role_name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @if ($errors->has('role_id') && ($role_id == 0))
-                                <span class="text-danger">{{ $errors->first('role_id') }}</span>
-                            @endif
-                        </div>
+                    <form wire:submit.prevent="addMember" novalidate>
                         <div class="mb-1">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" wire:model="name">
@@ -41,30 +27,51 @@
                                 <span class="text-danger">{{ $errors->first('name') }}</span>
                             @endif
                         </div>
-
+                        <div>
+                            <label for="nim" class="form-label">NIM</label>
+                            <input type="text" class="form-control" id="nim" name="name" wire:model="nim">
+                            @if ($errors->has('nim'))
+                                <span class="text-danger">{{ $errors->first('nim') }}</span>
+                            @endif
+                        </div>
                         <div class="mb-1">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" wire:model="username">
-                            @if ($errors->has('username'))
-                                <span class="text-danger">{{ $errors->first('username') }}</span>
+                            <label for="major" class="form-label">Major</label>
+                            <select id="major" name="major" class="form-select custom-select" wire:model="major">
+                                <option value="0" selected>Select Major</option>
+                                <option value="Informatika">Informatika</option>
+                                <option value="Data Science">Data Science</option>
+                                <option value="Sistem Informasi">Sistem Informasi</option>
+                            </select>
+                            @if ($errors->has('major') && ($major == 0))
+                                <span class="text-danger">{{ $errors->first('major') }}</span>
+                            @endif
+                        </div>
+                        <div class="mb-1">
+                            <label for="faculty" class="form-label">Faculty</label>
+                            <select id="faculty" name="faculty" class="form-select custom-select" wire:model="faculty">
+                                <option value="0" selected>Select Faculty</option>
+                                <option value="FTIB">FTIB</option>
+                                <option value="FTEIC">FTEIC</option>
+                            </select>
+                            @if ($errors->has('faculty') && ($faculty == 0))
+                                <span class="text-danger">{{ $errors->first('faculty') }}</span>
+                            @endif
+                        </div>
+                        <div class="mb-1">
+                            <label for="year" class="form-label">Year</label>
+                            <select id="year" name="year" class="form-select custom-select" wire:model="year">
+                                <option value="0" selected>Select Year</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                            </select>
+                            @if ($errors->has('year') && ($year == 0))
+                                <span class="text-danger">{{ $errors->first('year') }}</span>
                             @endif
                         </div>
 
-                        <div class="mb-1">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" wire:model="email">
-                            @if ($errors->has('email'))
-                                <span class="text-danger">{{ $errors->first('email') }}</span>
-                            @endif
-                        </div>
-
-                        <div class="mb-1">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" wire:model="password">
-                            @if ($errors->has('password'))
-                                <span class="text-danger">{{ $errors->first('password') }}</span>
-                            @endif
-                        </div>
 
                         <div class="modal-footer mt-3">
                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" wire:click="AddModalClosed">Close</button>
@@ -97,85 +104,14 @@
         </div>
     </div>
 
-{{--
-
 
     {{-- TODO ==> EDIT MODAL <=== --}}
-    {{-- {{ dd($user) }} --}}
-    <div wire:ignore.self class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            {{-- @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif --}}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="updateUserModalLabel">Edit User</h1>
-                </div>
-                <div class="modal-body">
-                    @if ($editModalClicked)
-                    <form wire:submit.prevent="updateUser" novalidate>
-                        <div class="mb-1">
-                            <label for="new_role_id" class="form-label">Role</label>
-                            <select id="new_role_id" name="new_role_id" class="form-select custom-select" wire:model="new_role_id">
-                                <option value="0" selected>Pilih Role</option>
-                                @foreach ($roles as $role)
-                                    @if ($role->role_name != "Owner")
-                                        <option value="{{ $role->id }}" @if ($role->id == $userUpdate->role_id ) selected @endif>{{ $role->role_name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @if ($errors->has('new_role_id') && ($role_id == 0))
-                                <span class="text-danger">{{ $errors->first('new_role_id') }}</span>
-                            @endif
-                        </div>
-                        <div class="mb-1">
-                            <label for="new_name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="new_name" name="new_name" wire:model="new_name">
-                            @if ($errors->has('new_name'))
-                                <span class="text-danger">{{ $errors->first('new_name') }}</span>
-                            @endif
-                        </div>
-
-                        <div class="mb-1">
-                            <label for="new_username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="new_username" name="new_username" wire:model="new_username">
-                            @if ($errors->has('new_username'))
-                                <span class="text-danger">{{ $errors->first('new_username') }}</span>
-                            @endif
-                        </div>
-
-                        <div class="mb-1">
-                            <label for="new_email" class="form-label">Email</label>
-                            <input type="new_email" class="form-control" id="new_email" name="new_email" wire:model="new_email">
-                            @if ($errors->has('new_email'))
-                                <span class="text-danger">{{ $errors->first('new_email') }}</span>
-                            @endif
-                        </div>
-
-                        <div class="modal-footer mt-3">
-                            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" wire:click="editModalClosed">Close</button>
-                            <button type="submit" class="btn btn-primary">Edit Data</button>
-                        </div>
-                    </form>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
 
 
 
-
- --}}
 
 
 

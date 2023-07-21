@@ -11,8 +11,6 @@ class UserShow extends Component
 
     public $search, $role_id_filter, $role_id, $name, $username, $email, $password;
     public $new_role_id, $new_name, $new_username, $new_email, $new_password;
-    public $perPage = 30;
-    public $currentPage = 1;
     public $userId;
     public $userUpdate;
 

@@ -8,7 +8,10 @@ use Livewire\Component;
 class MemberShow extends Component
 {
     public $search, $major_filter, $faculty_filter, $year_filter;
+    public $name, $nim, $major, $faculty, $year;
     public $memberId;
+    public $editModalClicked = False;
+    public $addModalClicked = False;
 
     protected $listeners = [
         'deleteConfirmed' => 'deleteMember'
@@ -20,6 +23,25 @@ class MemberShow extends Component
             'members' => $this->getMembers()
         ]);
     }
+
+    protected function rules()
+    {
+        $rules = [
+            'name' => 'required|string',
+            'nim' => 'required|numeric|digits:10',
+            'major' => 'required|string',
+            'faculty' => 'required|string',
+            'year' => 'required|numeric',
+        ];
+
+        return $rules;
+    }
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields);
+    }
+
 
     public function getMembers()
     {
@@ -46,6 +68,34 @@ class MemberShow extends Component
 
         return $users;
     }
+
+        public function addMember()
+        {
+            $this->addModalClicked = True;
+            $this->editModalClicked = False;
+            $validatedData = $this->validate();
+            Member::create($validatedData);
+            $this->getMembers();
+            $this->resetInput();
+
+            $this->dispatchBrowserEvent('create-member-alert');
+            $this->dispatchBrowserEvent('close-modal');
+        }
+
+        public function addModalClosed()
+        {
+            $this->addModalClicked = False;
+            $this->resetInput();
+        }
+
+        public function resetInput()
+        {
+            $this->name = "";
+            $this->nim = "";
+            $this->major = "";
+            $this->faculty = "";
+            $this->year = "";
+        }
 
 
         // Todo DELETE

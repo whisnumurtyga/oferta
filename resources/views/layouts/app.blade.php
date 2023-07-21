@@ -57,6 +57,9 @@
             $('#addUserModal').modal('hide');
             $('#updateUserModal').modal('hide');
             $('#deleteStudentModal').modal('hide');
+
+            $('#addMemberModal').modal('hide');
+
         })
     </script>
     <!-- Include Livewire Scripts -->

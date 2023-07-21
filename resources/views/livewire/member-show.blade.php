@@ -2,9 +2,9 @@
 
 <div>
     <div >
-        {{-- @include("livewire.member-modal") --}}
+        @include("livewire.member-modal")
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">
             Add Member
         </button>
         <div class="">
@@ -20,10 +20,10 @@
                     <div class="col-lg-2">
                         <div class="">
                             <select id="major_filter" name="major_filter" class="form-select custom-select" wire:model="major_filter" >
-                                <option value="0" selected>Select Major</option>
-                                    <option value="Informatika">Informatika</option>
-                                    <option value="Data Science">Data Science</option>
-                                    <option value="Sistem Informasi">Sistem Informasi</option>
+                                <option   option value="0" selected>Select Major</option>
+                                <option value="Informatika">Informatika</option>
+                                <option value="Data Science">Data Science</option>
+                                <option value="Sistem Informasi">Sistem Informasi</option>
                             </select>
                         </div>
                     </div>
@@ -31,8 +31,8 @@
                         <div class="">
                             <select id="faculty_filter" name="faculty_filter" class="form-select custom-select" wire:model="faculty_filter" >
                                 <option value="0" selected>Select Faculty</option>
-                                    <option value="FTIB">FTIB</option>
-                                    <option value="FTEIC">FTEIC</option>
+                                <option value="FTIB">FTIB</option>
+                                <option value="FTEIC">FTEIC</option>
                             </select>
                         </div>
                     </div>
@@ -128,10 +128,10 @@
 
     {{-- Sweet Alert Create Script --}}
     <script>
-        window.addEventListener('create-user-alert', event => {
+        window.addEventListener('create-member-alert', event => {
             Swal.fire({
                 title: 'Added',
-                text: "User has been added successfully!",
+                text: "Member has been added successfully!",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'

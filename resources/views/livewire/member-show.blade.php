@@ -75,12 +75,12 @@
                                     <td colspan="3" class="text-white">
                                         <div class="row p-1 d-flex justify-content-center align-items-center">
                                             <div class="col-4">
-                                                <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateUserModal" wire:click.prevent="editUser()">
+                                                <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateUserModal" wire:click.prevent="editMember({{ $member->id }})">
                                                     edit
                                                 </button>
                                             </div>
                                             <div class="col-4">
-                                                <a wire:click.prevent="deleteConfirmation()" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
+                                                <a wire:click.prevent="deleteConfirmation({{ $member->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
                                                     delete
                                                 </a>
                                             </div>
@@ -102,7 +102,7 @@
         window.addEventListener('show-delete-confirmation', event => {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You woant to delete this user?",
+                text: "You woant to delete this member?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#625757',
@@ -115,10 +115,10 @@
             })
         })
 
-        window.addEventListener('user-deleted', event => {
+        window.addEventListener('member-deleted', event => {
             Swal.fire({
                 title: 'Deleted',
-                text: "User has been deleted",
+                text: "member has been deleted",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'

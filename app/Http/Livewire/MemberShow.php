@@ -8,6 +8,11 @@ use Livewire\Component;
 class MemberShow extends Component
 {
     public $search, $major_filter, $faculty_filter, $year_filter;
+    public $memberId;
+
+    protected $listeners = [
+        'deleteConfirmed' => 'deleteMember'
+    ];
 
     public function render()
     {
@@ -41,4 +46,22 @@ class MemberShow extends Component
 
         return $users;
     }
+
+
+        // Todo DELETE
+        public function deleteConfirmation($memberId)
+        {
+            // dd($memberId);
+            $this->memberId = $memberId;
+            $this->dispatchBrowserEvent('show-delete-confirmation');
+        }
+
+        public function deleteMember()
+        {
+            Member::find($this->memberId)->delete();
+            $this->getMembers();
+
+            $this->dispatchBrowserEvent('member-deleted');
+        }
+
 }

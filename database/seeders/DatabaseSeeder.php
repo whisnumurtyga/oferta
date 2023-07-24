@@ -7,6 +7,8 @@ use Database\Seeders\RolesSeeder;
 use Database\Seeders\UsersSeeder;
 use Database\Seeders\MembersSeeder;
 use Database\Seeders\SuppliersSeeder;
+use Database\Seeders\CategoriesSeeder;
+use Database\Seeders\GoodsSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesSeeder::class);
         $this->call(MembersSeeder::class);
         $this->call(SuppliersSeeder::class);
+        $this->call(CategoriesSeeder::class);
+        $this->call(GoodsSeeder::class);
 
 
     }

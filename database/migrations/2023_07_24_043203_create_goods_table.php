@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('goods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id');
-            $table->foreignId('supplier_id');
+            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->integer('stock');
-            $table->decimal('buy', 32, 2);
-            $table->decimal('sell', 32, 2);
+            $table->integer('buy');
+            $table->integer('sell');
             $table->datetime('date_in');
             $table->datetime('date_exp');
             $table->timestamps();

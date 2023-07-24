@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('stock');
             $table->integer('buy');
             $table->integer('sell');
-            $table->datetime('date_in');
-            $table->datetime('date_exp');
+            $table->date('date_in');
+            $table->date('date_exp');
             $table->timestamps();
         });
     }

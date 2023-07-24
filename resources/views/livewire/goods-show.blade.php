@@ -1,17 +1,19 @@
-
+@php
+    use Carbon\Carbon;
+@endphp
 
 <div>
     <div >
         {{-- {{ dd($suppliers) }} --}}
-        @include("livewire.supplier-modal")
+        @include("livewire.goods-modal")
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoodsModal">
             Add Goods
         </button>
         <div class="">
             <div class="mt-2 py-3">
                 <div class="row">
-                    <div class="col-lg-6 mb-2">
+                    <div class="col-lg-4 mb-2">
                         <input  wire:model="search" type="text" class="form-control" placeholder="Search">
                     </div>
                     <div class="col-lg-2">
@@ -31,6 +33,36 @@
                                 @foreach ($suppliers as $supplier)
                                     <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="">
+                            <select id="year_filter" name="year_filter" class="form-select custom-select" wire:model="year_filter" >
+                                <option value="0" selected>Select Year</option>
+                                @for ($i = 2010; $i <= Carbon::now()->year; $i++)
+                                <option value="{{ $i }}" selected>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <div class="">
+                            <select id="month_filter" name="month_filter" class="form-select custom-select" wire:model="month_filter" >
+                                <option value="0" selected>Month</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" selected>{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <div class="">
+                            <select id="day_filter" name="day_filter" class="form-select custom-select" wire:model="day_filter" >
+                                <option value="0" selected>Day</option>
+                                @for ($i = 1; $i <= 31; $i++)
+                                <option value="{{ $i }}" selected>{{ $i }}</option>
+                                @endfor
                             </select>
                         </div>
                     </div>
@@ -66,12 +98,12 @@
                                         <td colspan="3" class="text-white">
                                             <div class="row p-1 d-flex justify-content-center align-items-center">
                                                 <div class="col-4">
-                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editSupplierModal" wire:click.prevent="editSupplier()">
+                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editGoodsModal" wire:click.prevent="editGoods({{ $good->id }})">
                                                         edit
                                                     </button>
                                                 </div>
                                                 <div class="col-4">
-                                                    <a wire:click.prevent="deleteConfirmation()" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
+                                                    <a wire:click.prevent="deleteConfirmation({{ $good->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
                                                         delete
                                                     </a>
                                                 </div>
@@ -93,7 +125,7 @@
         window.addEventListener('show-delete-confirmation', event => {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You want to delete this supplier?",
+                text: "You want to delete this goods?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#625757',
@@ -106,10 +138,10 @@
             })
         })
 
-        window.addEventListener('supplier-deleted', event => {
+        window.addEventListener('goods-deleted', event => {
             Swal.fire({
                 title: 'Deleted',
-                text: "supplier has been deleted",
+                text: "goods has been deleted",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'
@@ -119,10 +151,10 @@
 
     {{-- Sweet Alert Create Script --}}
     <script>
-        window.addEventListener('create-supplier-alert', event => {
+        window.addEventListener('create-goods-alert', event => {
             Swal.fire({
                 title: 'Added',
-                text: "Supplier has been added successfully!",
+                text: "Goods has been added successfully!",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'
@@ -132,10 +164,10 @@
 
     {{-- Sweet Alert Update Script --}}
     <script>
-        window.addEventListener('supplier-updated', event => {
+        window.addEventListener('goods-updated', event => {
             Swal.fire({
                 title: 'Updated',
-                text: "Supplier has been updated",
+                text: "Goods has been updated",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'

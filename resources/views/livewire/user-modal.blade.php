@@ -101,18 +101,8 @@
 
 
     {{-- TODO ==> EDIT MODAL <=== --}}
-    {{-- {{ dd($user) }} --}}
     <div wire:ignore.self class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            {{-- @if($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif --}}
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="updateUserModalLabel">Edit User</h1>

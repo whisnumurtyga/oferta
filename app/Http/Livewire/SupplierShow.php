@@ -8,7 +8,11 @@ use Livewire\Component;
 class SupplierShow extends Component
 {
     public $search;
-    public $supplierId;
+    public $name, $phone, $address;
+    public $new_name, $new_phone, $new_address;
+    public $supplierId, $supplierUpdate;
+    public $editModalClicked = False;
+    public $addModalClicked = False;
 
     protected $listeners = [
         'deleteConfirmed' => 'deleteSupplier'
@@ -21,6 +25,32 @@ class SupplierShow extends Component
             'suppliers' => $this->getSuppliers()
         ]);
     }
+
+    protected function rules()
+    {
+        if ($this->editModalClicked == True) {
+            $rules = [
+                'new_name' => 'required|string',
+                'new_phone' => 'required|numeric|digits:12',
+                'new_address' => 'required|string',
+            ];
+        } else {
+            $rules = [
+                'name' => 'required|string',
+                'phone' => 'required|numeric|digits:12',
+                'address' => 'required|string',
+            ];
+        }
+
+        return $rules;
+    }
+
+
+    public function updated($fields)
+    {
+        $this->validateOnly($fields);
+    }
+
 
     public function getSuppliers()
     {
@@ -38,6 +68,32 @@ class SupplierShow extends Component
         return $suppliers;
     }
 
+    public function addSupplier()
+    {
+        $this->addModalClicked = True;
+        $this->editModalClicked = False;
+        $validatedData = $this->validate();
+        Supplier::create($validatedData);
+        $this->getSuppliers();
+        $this->resetInput();
+
+        $this->dispatchBrowserEvent('create-supplier-alert');
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function addModalClosed()
+    {
+        $this->addModalClicked = False;
+        $this->resetInput();
+    }
+
+    public function resetInput()
+    {
+        $this->name = "";
+        $this->phone = "";
+        $this->address = "";
+    }
+
 
     public function deleteConfirmation($supplierId)
     {
@@ -53,5 +109,40 @@ class SupplierShow extends Component
 
         $this->dispatchBrowserEvent('supplier-deleted');
     }
+
+    public function editSupplier($supplierId)
+    {
+        $this->addModalClicked = False;
+        $this->editModalClicked = True;
+
+        $this->supplierUpdate = Supplier::find($supplierId);
+
+        $this->supplierId = $supplierId;
+        $this->new_name = $this->supplierUpdate->name;
+        $this->new_phone = $this->supplierUpdate->phone;
+        $this->new_address = $this->supplierUpdate->address;
+    }
+
+    public function updateSupplier()
+    {
+        $validatedData = $this->validate();
+
+        Supplier::where('id', $this->supplierId)->update([
+            'name' => $validatedData['new_name'],
+            'phone' => $validatedData['new_phone'],
+            'address' => $validatedData['new_address'],
+        ]);
+
+        $this->resetInput();
+        $this->dispatchBrowserEvent('supplier-updated');
+        $this->dispatchBrowserEvent('close-modal');
+    }
+
+    public function editModalClosed()
+    {
+        $this->editModalClicked = False;
+        $this->resetInput();
+    }
+
 
 }

@@ -5,7 +5,7 @@
         {{-- {{ dd($suppliers) }} --}}
         @include("livewire.supplier-modal")
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSupplierModal">
             Add Supplier
         </button>
         <div class="">
@@ -20,8 +20,8 @@
                             <tr class="text-center" style="background-color: #625757;">
                                 <th scope="col" class="text-white">#</th>
                                 <th scope="col" class="text-white">Name</th>
-                                <th scope="col" class="text-white">phone</th>
-                                <th scope="col" class="text-white">address</th>
+                                <th scope="col" class="text-white">Phone</th>
+                                <th scope="col" class="text-white">Address</th>
                                 <th scope="col" class="text-white">Action</th>
                             </tr>
                         </thead>
@@ -35,7 +35,7 @@
                                         <td colspan="3" class="text-white">
                                             <div class="row p-1 d-flex justify-content-center align-items-center">
                                                 <div class="col-4">
-                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editMemberModal" wire:click.prevent="editMember()">
+                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editSupplierModal" wire:click.prevent="editSupplier({{ $supp->id }})">
                                                         edit
                                                     </button>
                                                 </div>
@@ -88,10 +88,10 @@
 
     {{-- Sweet Alert Create Script --}}
     <script>
-        window.addEventListener('create-member-alert', event => {
+        window.addEventListener('create-supplier-alert', event => {
             Swal.fire({
                 title: 'Added',
-                text: "Member has been added successfully!",
+                text: "Supplier has been added successfully!",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'
@@ -101,10 +101,10 @@
 
     {{-- Sweet Alert Update Script --}}
     <script>
-        window.addEventListener('user-updated', event => {
+        window.addEventListener('supplier-updated', event => {
             Swal.fire({
                 title: 'Updated',
-                text: "User has been updated",
+                text: "Supplier has been updated",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'

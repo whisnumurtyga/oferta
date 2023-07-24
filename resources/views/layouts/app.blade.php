@@ -61,6 +61,8 @@
             $('#addMemberModal').modal('hide');
             $('#editMemberModal').modal('hide');
 
+            $('#addSupplierModal').modal('hide');
+            $('#editSupplierModal').modal('hide');
         })
     </script>
     <!-- Include Livewire Scripts -->

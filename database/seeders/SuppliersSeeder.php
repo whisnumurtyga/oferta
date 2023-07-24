@@ -20,7 +20,7 @@ class SuppliersSeeder extends Seeder
         foreach (range(1,   50) as $index) {
             DB::table('suppliers')->insert([
                 'name' => $faker->name,
-                'phone' => "08" . $faker->randomNumber(9, true),
+                'phone' => "082" . $faker->randomNumber(9, true),
                 'address' => $faker->address,
             ]);
         }

@@ -8,7 +8,13 @@ use Livewire\Component;
 class SupplierShow extends Component
 {
     public $search;
-    
+    public $supplierId;
+
+    protected $listeners = [
+        'deleteConfirmed' => 'deleteSupplier'
+    ];
+
+
     public function render()
     {
         return view('livewire.supplier-show', [
@@ -30,6 +36,22 @@ class SupplierShow extends Component
         $suppliers = $query->get();
 
         return $suppliers;
+    }
+
+
+    public function deleteConfirmation($supplierId)
+    {
+        $this->supplierId = $supplierId;
+        // dd($this->supplierId);
+        $this->dispatchBrowserEvent('show-delete-confirmation');
+    }
+
+    public function deleteSupplier()
+    {
+        Supplier::find($this->supplierId)->delete();
+        $this->getSuppliers();
+
+        $this->dispatchBrowserEvent('supplier-deleted');
     }
 
 }

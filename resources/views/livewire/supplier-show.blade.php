@@ -3,7 +3,7 @@
 <div>
     <div >
         {{-- {{ dd($suppliers) }} --}}
-        {{-- @include("livewire.supplier-modal") --}}
+        @include("livewire.supplier-modal")
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">
             Add Supplier
@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($suppliers as $supp)                                
+                            @foreach ($suppliers as $supp)
                                     <tr>
                                         <th scope="row">{{ $loop->iteration }}</th>
                                         <td>{{ $supp->name }}</td>
@@ -40,7 +40,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-4">
-                                                    <a wire:click.prevent="deleteConfirmation()" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
+                                                    <a wire:click.prevent="deleteConfirmation({{ $supp->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
                                                         delete
                                                     </a>
                                                 </div>
@@ -62,7 +62,7 @@
         window.addEventListener('show-delete-confirmation', event => {
             Swal.fire({
                 title: 'Are you sure?',
-                text: "You woant to delete this member?",
+                text: "You want to delete this supplier?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#625757',
@@ -75,10 +75,10 @@
             })
         })
 
-        window.addEventListener('member-deleted', event => {
+        window.addEventListener('supplier-deleted', event => {
             Swal.fire({
                 title: 'Deleted',
-                text: "member has been deleted",
+                text: "supplier has been deleted",
                 icon: 'success',
                 confirmButtonColor: '#625757',
                 confirmButtonText: 'Ok'

@@ -3,5 +3,7 @@
 @section('title', 'Oferta - Suppliers')
 
 @section('content')
-    <h1 class="text-primary">This is the Suppliers Page</h1>
+<div class="mt-2 col-lg-" >
+    @livewire('supplier-show')
+</div>
 @stop

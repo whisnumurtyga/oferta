@@ -76,9 +76,9 @@ class MemberShow extends Component
             });
         }
 
-        $users = $query->get();
+        $members = $query->get();
 
-        return $users;
+        return $members;
     }
 
     public function addMember()

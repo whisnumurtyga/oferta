@@ -22,7 +22,9 @@
                                 <th scope="col" class="text-white">Name</th>
                                 <th scope="col" class="text-white">Phone</th>
                                 <th scope="col" class="text-white">Address</th>
-                                <th scope="col" class="text-white">Action</th>
+                                @if (Auth::user()->role_id <= 2)
+                                    <th scope="col" class="text-white">Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -32,20 +34,22 @@
                                         <td>{{ $supp->name }}</td>
                                         <td>{{ $supp->phone }}</td>
                                         <td>{{ $supp->address }}</td>
-                                        <td colspan="3" class="text-white">
-                                            <div class="row p-1 d-flex justify-content-center align-items-center">
-                                                <div class="col-4">
-                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editSupplierModal" wire:click.prevent="editSupplier({{ $supp->id }})">
-                                                        edit
-                                                    </button>
+                                        @if (Auth::user()->role_id <= 2)
+                                            <td colspan="3" class="text-white">
+                                                <div class="row p-1 d-flex justify-content-center align-items-center">
+                                                    <div class="col-4">
+                                                        <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editSupplierModal" wire:click.prevent="editSupplier({{ $supp->id }})">
+                                                            edit
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <a wire:click.prevent="deleteConfirmation({{ $supp->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
+                                                            delete
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                                <div class="col-4">
-                                                    <a wire:click.prevent="deleteConfirmation({{ $supp->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
-                                                        delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                         </tbody>

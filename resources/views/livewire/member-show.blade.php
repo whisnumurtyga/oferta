@@ -59,7 +59,9 @@
                                 <th scope="col" class="text-white">Major</th>
                                 <th scope="col" class="text-white">Faculty</th>
                                 <th scope="col" class="text-white">Year</th>
-                                <th scope="col" class="text-white">Action</th>
+                                @if (Auth::user()->role_id <= 2)
+                                    <th scope="col" class="text-white">Action</th>
+                                @endif
                             </tr>
                         </thead>
                         {{-- {{ dd($users) }} --}}
@@ -72,20 +74,22 @@
                                     <td>{{ $member->major}}</td>
                                     <td>{{ $member->faculty }}</td>
                                     <td>{{ $member->year }}</td>
-                                    <td colspan="3" class="text-white">
-                                        <div class="row p-1 d-flex justify-content-center align-items-center">
-                                            <div class="col-4">
-                                                <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editMemberModal" wire:click.prevent="editMember({{ $member->id }})">
-                                                    edit
-                                                </button>
+                                    @if (Auth::user()->role_id <= 2)
+                                        <td colspan="3" class="text-white">
+                                            <div class="row p-1 d-flex justify-content-center align-items-center">
+                                                <div class="col-4">
+                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editMemberModal" wire:click.prevent="editMember({{ $member->id }})">
+                                                        edit
+                                                    </button>
+                                                </div>
+                                                <div class="col-4">
+                                                    <a wire:click.prevent="deleteConfirmation({{ $member->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
+                                                        delete
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="col-4">
-                                                <a wire:click.prevent="deleteConfirmation({{ $member->id }})" class="btn btn-sm  btn-outline-danger delete-button" style="color:#625757">
-                                                    delete
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

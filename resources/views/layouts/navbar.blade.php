@@ -1,7 +1,4 @@
-<?php
-use Illuminate\Support\Facades\Auth;
 
-?>
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
     <a class="navbar-brand" href="/" style="font-family: 'Lilita One', cursive; letter-spacing: 4px; font-size:28px">OFFERTA</a>

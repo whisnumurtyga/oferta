@@ -20,6 +20,8 @@ Route::get('/login', function() {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+Route::put('/profile/{id}/{role_id}', [AuthController::class, 'update'])->name('updateProfile');
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {

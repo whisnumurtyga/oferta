@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,34 +13,40 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/login', function() {
+    return view('login');
+})->name('login')->middleware('guest');
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
-
-Route::get('/transactions', function () {
-    return view('transactions');
-})->name('transactions');
-
-Route::get('/goods', function () {
-    return view('goods');
-})->name('goods');
-
-Route::get('/suppliers', function () {
-    return view('suppliers');
-})->name('suppliers');
-
-Route::get('/users', function () {
-    return view('users');
-})->name('users');
-
-Route::get('/members', function () {
-    return view('members');
-})->name('members');
-
-Route::get('/profile', function () {
-    return view('profile');
-})->name('profile');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
+    Route::get('/transactions', function () {
+        return view('transactions');
+    })->name('transactions');
+
+    Route::get('/goods', function () {
+        return view('goods');
+    })->name('goods');
+
+    Route::get('/suppliers', function () {
+        return view('suppliers');
+    })->name('suppliers');
+
+    Route::get('/users', function () {
+        return view('users');
+    })->name('users');
+
+    Route::get('/members', function () {
+        return view('members');
+    })->name('members');
+
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
+});

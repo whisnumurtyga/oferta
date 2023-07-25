@@ -39,9 +39,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/logout">
-                    Logout
-                </a>
+                <!-- Letakkan tombol logout di halaman tampilan Anda -->
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <button type="submit" class="mt-3 nav-link btn btn-outline-primary btn-lg" style="width: 100%">Logout</button>
+                </form>
             </li>
         </ul>
     </div>

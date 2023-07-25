@@ -91,3 +91,15 @@
     top: 0;
     z-index: 1;
 }
+
+
+<style>
+    /* Gaya untuk tombol logout dengan elemen form */
+    form.logout-form {
+        display: inline !important; /* Agar tombol logout tampil dalam satu baris dengan link lain */
+        cursor: pointer !important; /* Ubah kursor saat diarahkan ke tombol logout */
+        text-decoration: none !important; /* Hilangkan underline jika ada */
+        color: inherit !important; /* Warisi warna teks dari parent (class .nav-link) */
+        font: inherit !important; /* Warisi font dari parent (class .nav-link) */
+    }
+</style>

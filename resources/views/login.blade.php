@@ -108,8 +108,8 @@
                     <form method="POST" action="{{ route('login.post') }}">
                         @csrf
                         <div class="form-group">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+                            <label for="username_or_email" class="form-label">Username/Email</label>
+                            <input type="text" class="form-control" id="username_or_email" name="username_or_email" value="{{ old('username_or_email') }}" required>
                         </div>
 
                         <div class="form-group">

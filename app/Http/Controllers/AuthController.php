@@ -12,7 +12,22 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // dd($request);
-        $credentials = $request->only('username', 'password');
+        $inputValue = $request->input('username_or_email');
+        $password = $request->input('password');
+        // Periksa apakah nilai input merupakan email atau username
+        if (filter_var($inputValue, FILTER_VALIDATE_EMAIL)) {
+            // Nilai input adalah email
+            $credentials = [
+                'email' => $inputValue,
+                'password' => $password,
+            ];
+        } else {
+            // Nilai input adalah username
+            $credentials = [
+                'username' => $inputValue,
+                'password' => $password,
+            ];
+        }
 
         if (Auth::attempt($credentials)) {
             // Jika data masukan benar dan login berhasil, maka pengguna telah diautentikasi
@@ -23,7 +38,7 @@ class AuthController extends Controller
             // Jika data masukan salah, maka proses login gagal
             // Lakukan sesuatu, misalnya arahkan kembali ke halaman login dengan pesan error
             // dd("login gagal");
-            return redirect()->route('login')->withInput($request->except('password'))->with('error', 'Email atau password salah.');
+            return redirect()->route('login')->withInput($request->except('password'))->with('error', 'Username/Email atau password salah.');
         }
     }
 

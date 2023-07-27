@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('transactions') ? 'active' : '' }}" href="{{ route('transactions') }}">
+                <a class="nav-link {{ request()->routeIs('transactions') || request()->routeIs('history-transaction') ? 'active' : '' }}" href="{{ route('transactions') }}">
                     Transactions
                 </a>
             </li>

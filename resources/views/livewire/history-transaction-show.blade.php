@@ -2,12 +2,8 @@
     use Carbon\Carbon;
 @endphp
 
-{{-- {{ dd($transactions[0]->payments->name) }} --}}
 <div>
     <div >
-        {{-- {{ dd($suppliers) }} --}}
-        @include("livewire.goods-modal")
-        <!-- Button trigger modal -->
         <a href="{{ route('transactions') }}">
             <button type="button" class="btn btn-primary">
                 Add Transaction
@@ -106,11 +102,6 @@
 
         </div>
     </div>
-    {{-- @isset($hist_transactions->order_id)
-    {{ $hist_transactions->order_id }} <br>
-    @endisset --}}
-    {{-- {{ $hist_transactions->date }} <br>
-    {{ $hist_transactions->status }} --}}
 
 @if ($detailModalClicked)
     <div wire:ignore.self class="modal fade" id="detailTransactionsModal" tabindex="-1" aria-labelledby="detailTransactionsModalLabel" aria-hidden="true">
@@ -175,71 +166,10 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="row">
-                    </div> --}}
                 </div>
             </div>
         </div>
     </div>
     @endif
 </div>
-
-
-
-
-    {{-- Sweet Alert Delete Script --}}
-    <script>
-        window.addEventListener('show-delete-confirmation', event => {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to delete this goods?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#625757',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, Sure'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    Livewire.emit('deleteConfirmed')
-                }
-            })
-        })
-
-        window.addEventListener('goods-deleted', event => {
-            Swal.fire({
-                title: 'Deleted',
-                text: "goods has been deleted",
-                icon: 'success',
-                confirmButtonColor: '#625757',
-                confirmButtonText: 'Ok'
-            })
-        })
-    </script>
-
-    {{-- Sweet Alert Create Script --}}
-    <script>
-        window.addEventListener('create-goods-alert', event => {
-            Swal.fire({
-                title: 'Added',
-                text: "Goods has been added successfully!",
-                icon: 'success',
-                confirmButtonColor: '#625757',
-                confirmButtonText: 'Ok'
-            })
-        })
-    </script>
-
-    {{-- Sweet Alert Update Script --}}
-    <script>
-        window.addEventListener('goods-updated', event => {
-            Swal.fire({
-                title: 'Updated',
-                text: "Goods has been updated",
-                icon: 'success',
-                confirmButtonColor: '#625757',
-                confirmButtonText: 'Ok'
-            })
-        })
-    </script>
-
 

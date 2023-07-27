@@ -35,7 +35,7 @@
                             <select id="price_filter" name="price_filter" class="form-select custom-select" wire:model="price_filter" >
                                 <option value="0" selected>Price</option>
                                 <option value="1" selected>Highest</option>
-                                <option value="0" selected>Lowest</option>
+                                <option value="2" selected>Lowest</option>
                             </select>
                         </div>
                     </div>
@@ -98,55 +98,53 @@
                     <div class="card-header" style="font-weight:500; font-size:20px">
                       Detail Transaksi
                     </div>
+                    <?php  $total = 0 ?>
                     <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-lg-1">1</div>
-                            <div class="col-lg-5">Coki-Coki</div>
-                            <div class="col-lg-2">3</div>
-                            <div class="col-lg-4">
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        Rp 12.000
-                                    </div>
-                                    <div class="col-lg-4" style="margin-top: -5px">
-                                        <button class="btn btn-outline-primary btn-sm btn-round "><i class="bi bi-trash"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-lg-1">2</div>
-                            <div class="col-lg-5">Kopi Susu</div>
-                            <div class="col-lg-2">1</div>
-                            <div class="col-lg-4">
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        Rp 10.000
-                                    </div>
-                                    <div class="col-lg-4" style="margin-top: -5px">
-                                        <button class="btn btn-outline-primary btn-sm btn-round "><i class="bi bi-trash"></i></button>
+                        @isset($detailTransaction)
+
+                            @foreach ($detailTransaction as $dt )
+                            <div class="row mb-2">
+                                <div class="col-lg-1">{{ $loop->iteration }}</div>
+                                <div class="col-lg-4">{{ $dt->goods->name }}</div>
+                                <div class="col-lg-2">{{ $dt->qty }}</div>
+                                <div class="col-lg-5">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            {{ $dt->pay }}
+                                        </div>
+                                        <div class="col-lg-4" style="margin-top: -5px">
+                                            <button class="btn btn-outline-primary btn-sm btn-round "><i class="bi bi-trash"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <?php $total += $dt->pay  ?>
+                            @endforeach
+                        @endisset
                     </div>
                     <div class="card-footer">
                         <div class="row" style="font-weight:600; font-size:16px">
                             <div class="col-lg-3">Total</div>
                             <div class="col-lg-3"></div>
                             <div class="col-lg-2"></div>
-                            <div class="col-lg-4">Rp 1.247.000</div>
+                            <div class="col-lg-4">Rp {{ $total }}</div>
                         </div>
                     </div>
                 </div>
                 <div class="mt-2">
-                    <select id="category_id_filter" name="category_id_filter" class="form-select form-control-xs custom-select" wire:model="category_id_filter" >
+                    <select id="detail_member" name="detail_member" class="form-select form-control-xs custom-select" wire:model="detail_member" >
                         <option value="0" selected>Member</option>
+                        @foreach ($members as $member)
+                            <option value="{{ $member->id }}" selected>{{ $member->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="mt-2">
-                    <select id="category_id_filter" name="category_id_filter" class="form-select form-control-xs custom-select" wire:model="category_id_filter" >
+                    <select id="detail_payment" name="detail_payment" class="form-select form-control-xs custom-select" wire:model="detail_payment" >
                         <option value="0" selected>Payment</option>
+                        @foreach ($payments as $payment)
+                            <option value="{{ $payment->id }}" selected>{{ $payment->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <button class="btn btn-primary btn-lg mt-2 col-lg-12">Submit Order</button>

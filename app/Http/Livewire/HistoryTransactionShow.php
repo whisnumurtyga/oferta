@@ -18,7 +18,7 @@ class HistoryTransactionShow extends Component
 
     public function render()
     {
-        return view('livewire.history-transaction-show',[
+    return view('livewire.history-transaction-show',[
             'transactions' => $this->getTransactions(),
             'detailTransactions' => $this->getDetailTransactions(),
             'categories' => Category::all(),

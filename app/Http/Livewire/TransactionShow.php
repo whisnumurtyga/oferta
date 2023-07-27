@@ -3,15 +3,20 @@
 namespace App\Http\Livewire;
 
 use App\Models\Category;
+use App\Models\DetailTransaction;
 use App\Models\Good;
+use App\Models\Member;
+use App\Models\Payment;
 use App\Models\Supplier;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class TransactionShow extends Component
 {
     public $search, $supplier_id_filter, $category_id_filter, $price_filter;
-    public $qty, $transaction;
+    public $qty, $transaction, $detailTransactions, $detail_member, $detail_payment;
+
     protected $listeners = [
         'addDetailTransaction' => 'addDetailTransaction'
     ];
@@ -20,8 +25,12 @@ class TransactionShow extends Component
     {
         return view('livewire.transaction-show', [
             'goods' => $this->getGoods(),
+            'members' => Member::all(),
             'suppliers' => Supplier::all(),
-            'categories' => Category::all()
+            'payments' => Payment::all(),
+            'categories' => Category::all(),
+            'transaction' => $this->getTransaction(),
+            'detailTransaction' => $this->getDetailTransaction($this->getTransaction()->id)
         ]);
     }
 
@@ -50,7 +59,7 @@ class TransactionShow extends Component
         // Sorting berdasarkan harga (price)
         if ($this->price_filter == 1) {
             $query->orderBy('sell', 'desc');
-        } else {
+        } else if($this->price_filter == 2) {
             $query->orderBy('sell', 'asc');
         }
 
@@ -59,16 +68,28 @@ class TransactionShow extends Component
         return $goods;
     }
 
-    public function getTransaction($userId)
+    public function getTransaction()
     {
-        $transaction = Transaction::when('user_id', $userId);
+        $transaction = Transaction::where('user_id', Auth::user()->id)
+                    ->where('status_id', 1)->first();
+        return $transaction;
     }
 
+    public function getDetailTransaction($transactionId)
+    {
+        $detailTransaction = DetailTransaction::where('transaction_id', $transactionId)->get();
+        return $detailTransaction;
+    }
     public function addDetailTransaction($goodId, $qty)
     {
         // dd('sad');
         if($qty != 0 && $qty != "") {
-            dd($goodId, $qty, Auth::user()->id);
+            $this->transaction = $this->getTransaction();
+            // dd($this->transaction->id);
+            if($this->transaction != null) {
+                $this->getDetailTransaction($this->transaction->id);
+                dd($this->detailTransactions);
+            }
         }
         // $this->cart[$productId] = $quantity; // Menambahkan barang dan jumlahnya ke dalam array cart
     }

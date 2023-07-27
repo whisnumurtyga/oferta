@@ -16,6 +16,8 @@ class TransactionShow extends Component
 {
     public $search, $supplier_id_filter, $category_id_filter, $price_filter;
     public $qty, $transaction, $detailTransactions, $detail_member, $detail_payment;
+    public $flagRules = False;
+
 
     protected $listeners = [
         'addDetailTransaction' => 'addDetailTransaction'
@@ -82,20 +84,70 @@ class TransactionShow extends Component
         $this->detailTransactions = $detailTransaction;
         return $detailTransaction;
     }
+
+    public function getGood($goodId)
+    {
+        $good = Good::where('id', $goodId)->first();
+        return $good;
+    }
+
+    public function checkDetailTransaction($goodId, $transactionId)
+    {
+        $dt = DetailTransaction::where('transaction_id', $transactionId)
+            ->where('goods_id', $goodId)->first();
+        return $dt;
+    }
     public function addDetailTransaction($goodId, $qty)
     {
-        // dd('sad');
+        $good =  $this->getGood($goodId);
         if($qty != 0 && $qty != "") {
-            $this->transaction = $this->getTransaction();
-            // dd($this->transaction->id);
-            if($this->transaction != null) {
-                $this->getDetailTransaction($this->transaction->id);
-                dd($this->detailTransactions);
+            // TODO: Untuk Handle kalo udah ada transaksi yang pending
+            $transaction = $this->getTransaction();
+            if($transaction != null) {
+                // $this->getDetailTransaction($this->transaction->id);
+                $oldDt = $this->checkDetailTransaction($goodId, $transaction->id);
+
+
+                if($oldDt != null) {
+                    $this->updateDetailTransaction($oldDt->id, $good, $qty);
+                } else {
+                    DetailTransaction::create([
+                        'transaction_id' => $this->transaction->id,
+                        'goods_id' => $goodId,
+                        'qty' => $qty,
+                        'pay' => $good->sell * $qty,
+                        'profit' => ($good->sell * $qty) - ($good->buy * $qty)
+                    ]);
+
+                    Good::where('id', $goodId)->update([
+                        'stock' => $good->stock - $qty,
+                    ]);
+                }
+
             }
         }
         // $this->cart[$productId] = $quantity; // Menambahkan barang dan jumlahnya ke dalam array cart
     }
 
+    public function updateDetailTransaction($detailTransactionId, $good, $qty)
+    {
+        $dt = DetailTransaction::where('id', $detailTransactionId)->first();
+        $old_pay = $dt->pay;
+        $old_profit = $dt->profit;
+        $old_qty = $dt->qty;
+        $old_stock = $good->stock;
+
+        DetailTransaction::where('id', $detailTransactionId)->update([
+            'qty' => $old_qty + $qty,
+            'pay' => $old_pay + ($good->sell * $qty),
+            'profit' => $old_profit + (($good->sell * $qty) - ($good->buy * $qty))
+        ]);
+
+        Good::where('id', $good->id)->update([
+            'stock' => $old_stock - $qty,
+        ]);
+
+    }
     public function deleteDetailTransaction($detailTransactionId)
     {
         // dd($detailTransactionId);

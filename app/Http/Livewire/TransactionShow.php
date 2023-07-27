@@ -151,6 +151,12 @@ class TransactionShow extends Component
     public function deleteDetailTransaction($detailTransactionId)
     {
         // dd($detailTransactionId);
+        $dt = DetailTransaction::where('id', $detailTransactionId)->first();
+        $good = Good::where('id', $dt->goods_id)->first();
+
+        Good::where('id', $dt->goods_id)->update([
+            'stock' => $good->stock + $dt->qty,
+        ]);
         DetailTransaction::find($detailTransactionId)->delete();
         $this->getDetailTransaction($this->transaction->id);
     }

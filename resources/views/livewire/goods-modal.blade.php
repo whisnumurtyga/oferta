@@ -1,4 +1,6 @@
 <div>
+    {{-- {{ dd($categories) }} --}}
+    {{-- {{ dd($goods) }} --}}
     {{-- TODO ==> INSERT MODAL <=== --}}
     <div wire:ignore.self class="modal fade" id="addGoodsModal" tabindex="-1" aria-labelledby="addGoodsModalLabel" aria-hidden="true">
         <div class="modal-dialog">

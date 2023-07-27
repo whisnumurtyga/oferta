@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id');
             $table->datetime('date');
             $table->foreignId('user_id');
-            $table->foreignId('member_id');
+            $table->foreignId('member_id')->default(null);
             $table->integer('total_pay');
             $table->integer('total_profit');
             $table->foreignId('status_id');

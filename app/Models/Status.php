@@ -13,7 +13,7 @@ class Status extends Model
         'name'
     ];
 
-    public function Transaction()
+    public function transaction()
     {
         return $this->hasMany(Transaction::class,);
     }

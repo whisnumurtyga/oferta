@@ -16,7 +16,7 @@ class DetailTransactionsSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        foreach (range(1,   3) as $index) {
+        foreach (range(1,   100) as $index) {
             $qty = random_int(1, 10);
             $unit_price = random_int(1000, 10000);
 

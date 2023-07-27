@@ -93,7 +93,7 @@
 }
 
 
-<style>
+<>
     /* Gaya untuk tombol logout dengan elemen form */
     form.logout-form {
         display: inline !important; /* Agar tombol logout tampil dalam satu baris dengan link lain */
@@ -103,3 +103,24 @@
         font: inherit !important; /* Warisi font dari parent (class .nav-link) */
     }
 </style>
+
+
+
+    .card {
+        position: relative;
+    }
+
+    .category {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 5px 10px;
+        border-radius: 5px;
+        z-index: 1; /* Atur nilai z-index untuk menempatkan kategori di atas gambar */
+    }
+
+    .card-img-top {
+        position: relative; /* Tambahkan ini agar z-index bekerja dengan benar pada gambar */
+    }
+

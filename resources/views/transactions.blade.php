@@ -3,5 +3,7 @@
 @section('title', 'Oferta - Transactions')
 
 @section('content')
-    <h1 class="text-primary">This is the Transactions Page</h1>
+    <div class="mt-2" >
+        @livewire('transaction-show')
+    </div>
 @stop

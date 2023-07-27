@@ -51,4 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/profile', function () {
         return view('profile');
     })->name('profile');
+
+    Route::get('/history-transaction', function () {
+        return view('history-transaction');
+    })->name('history-transaction');
 });

@@ -42,7 +42,9 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <button class="btn btn-outline-primary">History Transactions</button>
+                <a href="{{ route('history-transaction') }}">
+                    <button class="btn btn-outline-primary">History Transactions</button>
+                </a>
             </div>
         </div>
         <div class="row mt-3">

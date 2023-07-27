@@ -18,9 +18,15 @@ class Good extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
     public function suppliers()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
+
+    public function detailTransactions()
+    {
+        return $this->hasMany(DetailTransaction::class,);
     }
 
 }

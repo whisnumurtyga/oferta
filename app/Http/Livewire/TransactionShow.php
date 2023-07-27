@@ -72,12 +72,14 @@ class TransactionShow extends Component
     {
         $transaction = Transaction::where('user_id', Auth::user()->id)
                     ->where('status_id', 1)->first();
+        $this->transaction = $transaction;
         return $transaction;
     }
 
     public function getDetailTransaction($transactionId)
     {
         $detailTransaction = DetailTransaction::where('transaction_id', $transactionId)->get();
+        $this->detailTransactions = $detailTransaction;
         return $detailTransaction;
     }
     public function addDetailTransaction($goodId, $qty)
@@ -92,6 +94,13 @@ class TransactionShow extends Component
             }
         }
         // $this->cart[$productId] = $quantity; // Menambahkan barang dan jumlahnya ke dalam array cart
+    }
+
+    public function deleteDetailTransaction($detailTransactionId)
+    {
+        // dd($detailTransactionId);
+        DetailTransaction::find($detailTransactionId)->delete();
+        $this->getDetailTransaction($this->transaction->id);
     }
 
 }

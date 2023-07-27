@@ -113,7 +113,7 @@
                                             {{ $dt->pay }}
                                         </div>
                                         <div class="col-lg-4" style="margin-top: -5px">
-                                            <button class="btn btn-outline-primary btn-sm btn-round "><i class="bi bi-trash"></i></button>
+                                            <button wire:click="deleteDetailTransaction('{{ $dt->id }}')" class="btn btn-outline-primary btn-sm btn-round "><i class="bi bi-trash"></i></button>
                                         </div>
                                     </div>
                                 </div>

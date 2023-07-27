@@ -25,9 +25,11 @@ class TransactionsSeeder extends Seeder
             $month = rand(1, 12);
             $day = rand(1, 31);
             $currentTime = Carbon::now()->format('H:i:s');
+            list($hour, $minute, $second) = explode(':', $currentTime);
+
 
             DB::table('Transactions')->insert([
-                'date' => Carbon::create($year, $month, $day, $currentTime),
+                'date' => Carbon::create($year, $month, $day)->setTime($hour, $minute, $second),
                 'user_id' => rand(1,25),
                 'member_id' => rand(1,25),
                 'total_pay' => ($a > $b) ? $b : $a,

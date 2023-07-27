@@ -41,6 +41,9 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <button class="btn btn-outline-primary">History Transactions</button>
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col-lg-8">
@@ -88,7 +91,6 @@
                 @endif
             @endforeach
             </div>
-            <button class="btn btn-outline-primary">History Transactions</button>
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header" style="font-weight:500; font-size:20px">
@@ -135,7 +137,17 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-lg mt-1 col-lg-12">Submit Order</button>
+                <div class="mt-2">
+                    <select id="category_id_filter" name="category_id_filter" class="form-select form-control-xs custom-select" wire:model="category_id_filter" >
+                        <option value="0" selected>Member</option>
+                    </select>
+                </div>
+                <div class="mt-2">
+                    <select id="category_id_filter" name="category_id_filter" class="form-select form-control-xs custom-select" wire:model="category_id_filter" >
+                        <option value="0" selected>Payment</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-lg mt-2 col-lg-12">Submit Order</button>
             </div>
         </div>
     </div>

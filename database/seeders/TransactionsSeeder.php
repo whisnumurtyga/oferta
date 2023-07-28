@@ -26,7 +26,7 @@ class TransactionsSeeder extends Seeder
             $day = rand(1, 31);
             $currentTime = Carbon::now()->format('H:i:s');
             list($hour, $minute, $second) = explode(':', $currentTime);
-            $role_kode = ['ADM', 'OW', 'KSR'];
+            $role_kode = ['ADM', 'OWN', 'KSR'];
 
             DB::table('Transactions')->insert([
                 'order_id' => $role_kode[array_rand($role_kode)] . "-" . rand(1, 50) . "-" . rand(11, 100),

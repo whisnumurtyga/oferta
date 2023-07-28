@@ -2,6 +2,8 @@
     {{-- {{ dd($goods) }} --}}
     {{-- The best athlete wants his opponent at his best. --}}
     {{-- {{ dd($cart) }} --}}
+    {{-- {{ dd($transaction->id) }} --}}
+    {{-- {{ dd(Auth::user()->id) }} --}}
     <div class="mt-5 container">
         <h1 class="text-lg text-primary text-center font-bold" style="font-size: 32px; letter-spacing: 3px;">PRODUK</h1>
         <div class="row mt-5">
@@ -133,7 +135,8 @@
                 </div>
                 <div class="mt-2">
                     <select id="detail_member" name="detail_member" class="form-select form-control-xs custom-select" wire:model="detail_member" >
-                        <option value="0" selected>Member</option>
+                        <option value="-1" selected>Member</option>
+                        <option value="0" selected>Not Member</option>
                         @foreach ($members as $member)
                             <option value="{{ $member->id }}" selected>{{ $member->name }}</option>
                         @endforeach
@@ -147,7 +150,7 @@
                         @endforeach
                     </select>
                 </div>
-                <button class="btn btn-primary btn-lg mt-2 col-lg-12">Submit Order</button>
+                <button wire:click="addTransaction()" class="btn btn-primary btn-lg mt-2 col-lg-12">Submit Transaction</button>
             </div>
         </div>
     </div>
@@ -164,4 +167,25 @@
         // alert(goodId)
         // alert(quantity)
     }
+
+    window.addEventListener('add-transaction-alert', event => {
+            Swal.fire({
+                title: 'Wrong',
+                text: "Choose Payment or Members First",
+                icon: 'error',
+                confirmButtonColor: '#625757',
+                confirmButtonText: 'Ok'
+            })
+        })
+
+
+        window.addEventListener('add-transaction-success', event => {
+            Swal.fire({
+                title: 'Success',
+                text: "Success add a transaction",
+                icon: 'success',
+                confirmButtonColor: '#625757',
+                confirmButtonText: 'Ok'
+            })
+        })
 </script>

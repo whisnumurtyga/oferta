@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('order_id');
-            $table->datetime('date');
+            $table->string('order_id')->nullable()->default(null);
+            $table->datetime('date')->nullable()->default(null);
             $table->foreignId('user_id');
-            $table->foreignId('member_id')->default(null);
-            $table->integer('total_pay');
-            $table->integer('total_profit');
-            $table->foreignId('status_id');
-            $table->foreignId('payment_id');
+            $table->foreignId('member_id')->nullable()->default(null);
+            $table->integer('total_pay')->nullable()->default(null);
+            $table->integer('total_profit')->nullable()->default(null);
+            $table->foreignId('status_id')->nullable()->default(1);
+            $table->foreignId('payment_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

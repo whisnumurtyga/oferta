@@ -7,9 +7,19 @@
         {{-- {{ dd($suppliers) }} --}}
         @include("livewire.goods-modal")
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoodsModal">
-            Add Goods
-        </button>
+        <div class="row">
+            <div class="col-lg-6">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoodsModal">
+                    Add Goods
+                </button>
+            </div>
+            <div class="col-lg-6">
+                <a href="{{ route('manage-categories') }}"></a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoodsModal">
+                    Manage Categories
+                </button>
+            </div>
+        </div>
         <div class="">
             <div class="mt-2 py-3">
                 <div class="row">

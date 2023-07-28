@@ -81,11 +81,17 @@
                         </thead>
                         <tbody>
                             @foreach ($transactions as $transaction)
+                            {{-- {{ dd($transaction) }} --}}
+                            <?php $isMember = $transaction->member_id != 0 ? True : False ?>
                                     <tr>
                                         <th scope="row">{{ $transaction->order_id }}</th>
                                         <td>{{ $transaction->date }}</td>
                                         <td>{{ $transaction->users->name }}</td>
-                                        <td>{{ $transaction->members->name }}</td>
+                                        @if (!$isMember)
+                                            <td>Non Member</td>
+                                        @else
+                                            <td>{{ $transaction->members->name }}</td>
+                                        @endif
                                         <td>{{ $transaction->total_pay }}</td>
                                         {{-- <td>{{ $transaction->payments }}</td> --}}
                                         <td>{{ $transaction->payments->name }}</td>
@@ -159,10 +165,14 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <div class="row" style="font-weight:600; font-size:16px">
-                                <div class="col-lg-4"><h1>Handled By: {{ $hist_transactions->users->name }}</h1></div>
-                                <div class="col-lg-4"><h1>Member Name: {{ $hist_transactions->members->name }}</h1></div>
-                                <div class="col-lg-4"><h1>Payment Via: {{ $hist_transactions->payments->name }}</h1></div>
+                            <div class="row" style="font-weight:400; font-size:16px">
+                                <div class="col-lg-4"><h1>Handled By: <br> {{ $hist_transactions->users->name }}</h1></div>
+                                @if ($hist_transactions->member_id == 0)
+                                    <div class="col-lg-4"><h1>Member Name: <br> Non Member</h1></div>
+                                @else
+                                    <div class="col-lg-4"><h1>Member Name: <br> {{ $hist_transactions->members->name }}</h1></div>
+                                @endif
+                                <div class="col-lg-4"><h1>Payment Via: <br> {{ $hist_transactions->payments->name }}</h1></div>
                             </div>
                         </div>
                     </div>

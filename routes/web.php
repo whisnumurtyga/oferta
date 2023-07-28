@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
         return view('history-transaction');
     })->name('history-transaction');
 
-    Route::get('/manage-categories', function () {
-        return view('manage-categories');
-    })->name('manage-categories');
+    Route::get('/category', function () {
+        return view('category');
+    })->name('category');
 });

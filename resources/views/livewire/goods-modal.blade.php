@@ -186,7 +186,7 @@
                         </div>
                         <div class="modal-footer mt-3">
                             <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" wire:click="editModalClosed">Close</button>
-                            <button type="submit" class="btn btn-primary">Add Data</button>
+                            <button type="submit" class="btn btn-primary">Edit Data</button>
                         </div>
                     </form>
                 </div>

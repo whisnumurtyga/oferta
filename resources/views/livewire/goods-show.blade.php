@@ -14,10 +14,11 @@
                 </button>
             </div>
             <div class="col-lg-6">
-                <a href="{{ route('manage-categories') }}"></a>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addGoodsModal">
-                    Manage Categories
-                </button>
+                <a href="{{ route('category') }}">
+                    <button type="button" class="btn btn-primary">
+                        Manage Categories
+                    </button>
+                </a>
             </div>
         </div>
         <div class="">

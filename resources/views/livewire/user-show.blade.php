@@ -53,7 +53,7 @@
                                         <td colspan="3" class="text-white">
                                             <div class="row p-1 d-flex justify-content-center align-items-center">
                                                 <div class="col-4">
-                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateUserModal" wire:click.prevent="editUser({{ $user->id }})">
+                                                    <button type="button" class="btn btn-sm  btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateUserModal" wire:click.prevent="editUser({{ $user->id }})" >
                                                         edit
                                                     </button>
                                                 </div>

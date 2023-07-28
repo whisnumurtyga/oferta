@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Livewire\Component;
 use App\Models\Category;
 use App\Models\DetailTransaction;
 use App\Models\Good;
@@ -11,7 +12,6 @@ use App\Models\Supplier;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Component;
 
 class TransactionShow extends Component
 {

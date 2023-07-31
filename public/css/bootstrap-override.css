@@ -41,8 +41,20 @@
 }
 
 
-.navbar
+/* Override the default Bootstrap styles for the select element */
+#myCustomSelect {
+    /* Apply your custom styles here */
+    background-color: #fff;
+    color: #625757; /* Optionally, set text color to contrast with the background */
+    border-color: #625757;
+  }
 
+  /* Override the styles for the select options */
+#myCustomSelect option {
+    /* Apply your custom styles for the select options here */
+    background-color: #fff;
+    color: #625757; /* Optionally, set text color to contrast with the background */
+  }
 
 /* todo Table */
 

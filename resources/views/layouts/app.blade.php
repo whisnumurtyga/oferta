@@ -50,6 +50,10 @@
         </div>
     </div>
 
+
+    <script src="{{ asset('livewire/livewire.js') }}"></script>
+
+
     <!-- jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- Letakkan perpustakaan Bootstrap JavaScript dan dependensinya -->
@@ -70,6 +74,13 @@
             $('#addGoodsModal').modal('hide');
             $('#editGoodsModal').modal('hide');
         })
+    </script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.2/chart.cjs"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script>
+
     </script>
     <!-- Include Livewire Scripts -->
     @livewireScripts

@@ -4,5 +4,7 @@
 @section('title', 'Oferta - Dashboard')
 
 @section('content')
-    <h1 class="text-primary">This is the Dashboard Page</h1>
+<div class="mt-2 col-lg-" >
+    @livewire('dashboard-show')
+</div>
 @stop

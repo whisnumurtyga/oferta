@@ -1,3 +1,21 @@
+/* TODO BOLD FONT WEIGHT */
+.th-1 {
+    font-weight: 400;
+}
+.th-2 {
+    font-weight: 500;
+}
+.th-3 {
+    font-weight: 600;
+}
+.th-4 {
+    font-weight: 700;
+}
+.th-5 {
+    font-weight: 800;
+}
+
+
 /* TODO SIDEBAR */
 .sidebar {
     position: fixed;

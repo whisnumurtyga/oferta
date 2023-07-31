@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.12.3",
+        "chart.js": "^4.3.2",
         "livewire": "^0.6.1",
         "sweetalert2": "^11.7.18"
     }

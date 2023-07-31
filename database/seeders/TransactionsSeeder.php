@@ -16,11 +16,16 @@ class TransactionsSeeder extends Seeder
     public function run()
     {
         $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month-2;
+        $currentMonth = Carbon::now()->month;
+        $i = 0;
 
         // Seed data 7 tahun ke belakang
         for ($year = $currentYear - 7; $year <= $currentYear; $year++) {
-            for ($month = 1; $month <= 12; $month++) {
+            if($year == $currentYear) {
+                $currentMonth -= 2;
+            }
+
+            for ($month = 1; $month <= $currentMonth; $month++) {
                 $daysInMonth = Carbon::createFromDate($year, $month)->daysInMonth;
 
                 for ($day = 1; $day <= $daysInMonth; $day++) {
@@ -44,10 +49,12 @@ class TransactionsSeeder extends Seeder
             }
         }
 
+
+
         // Seed data untuk tahun dan bulan saat ini
         $daysInCurrentMonth = Carbon::createFromDate($currentYear, $currentMonth)->daysInMonth;
-
-        for ($day = 1; $day <= $daysInCurrentMonth; $day++) {
+        $currentMonth += 2;
+        for ($day = 1; $day <= 28; $day++) {
             $a = rand(50000, 100000);
             $b = rand(50000, 100000);
             $currentTime = Carbon::now()->format('H:i:s');

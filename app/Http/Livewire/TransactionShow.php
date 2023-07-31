@@ -201,7 +201,7 @@ class TransactionShow extends Component
 
     public function addTransaction()
     {
-        if($this->detail_member == null || $this->detail_member == -1 || $this->detail_payment == null) {
+        if($this->detail_member == null || $this->detail_member == -1 || $this->detail_payment == null || $this->detail_payment == 0) {
             $this->dispatchBrowserEvent('add-transaction-alert');
             return;
         }

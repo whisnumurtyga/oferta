@@ -3,11 +3,13 @@
 <nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar collapse" style="padding-top: 70px; overflow:hidden; background-color: #F9F9F9;">
     <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
+            @if ( !(Auth::user()->role_id >= 2) )
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                     Dashboard
                 </a>
             </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('transactions') || request()->routeIs('history-transaction') ? 'active' : '' }}" href="{{ route('transactions') }}">
                     Transactions

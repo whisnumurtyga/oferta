@@ -51,11 +51,11 @@
                     <div class="col-8 mt-1">
                         <div class="mb-3">
                             <label for="startDate" class="form-label">Start Date</label>
-                            <input  wire:model='startDate' wire:change='filterTransactions' type="date" id="startDate" class="form-control">
+                            <input  wire:model='startDate' wire:change='customFilterTransactions()' type="date" id="startDate" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label for="endDate" class="form-label">End Date</label>
-                            <input wire:model='endDate' wire:change='filterTransactions'z1 id="endDate" type="date" class="form-control">
+                            <input wire:model='endDate' wire:change='customFilterTransactions()'z1 id="endDate" type="date" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-4 d-flex flex-column align-items-center">
-                <h1 class="text-center th-3">Proporsi By Member Major</h1>
+                <h1 class="text-center th-3 text-big">Proporsi Profit By Member Major</h1>
                 <select wire:change="filterPieTransactionByMajor"  wire:model="filterProfitByMember"  id="myCustomSelect" class="form-select mt-3 mb-2" aria-label="Default select example">
                     <option value="all" selected>All</option>
                     <option value="7days">7 Days</option>
@@ -72,25 +72,40 @@
                     <option value="1year">1 Year Ago</option>
                     <option value="5years">5 Years Ago</option>
                 </select>
-                {{-- {{ $filterProfitByMember }} --}}
                 <canvas wire:ignore class="mt-2" id="memberDoughnutChart" width="400" height="400" style="width:400px"></canvas>
             </div>
             <div class="mt-5">
                 <div class="mb-3">
                     <label for="startDatePieMajor" class="form-label">Start Date</label>
-                    <input  wire:model='startDatePieMajor' wire:change='filterPieTransactionByMajor' type="date" id="startDate" class="form-control">
+                    <input  wire:model='startDatePieMajor' wire:change='customFilterPieMajor()' type="date" id="startDate" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="endDatePieMajor" class="form-label">End Date</label>
-                    <input wire:model='endDatePieMajor' wire:change='filterPieTransactionByMajor' id="endDate" type="date" class="form-control">
+                    <input wire:model='endDatePieMajor' wire:change='customFilterPieMajor()' id="endDate" type="date" class="form-control">
                 </div>
             </div>
-            {{-- <div class="col-4">
-                <canvas id="statusDoughnutChart" width="400" height="400"></canvas>
+            <div class="col-4  d-flex flex-column align-items-center">
+                <h1 class="text-center th-3 text-big">Proporsi Profit By Payment</h1>
+                <select wire:change="filterPieTransactionByPayment"  wire:model="filterProfitByPayment"  id="myCustomSelect" class="form-select mt-3 mb-2" aria-label="Default select example">
+                    <option value="all" selected>All</option>
+                    <option value="7days">7 Days</option>
+                    <option value="1month">1 Month Ago</option>
+                    <option value="3months">3 Months Ago</option>
+                    <option value="1year">1 Year Ago</option>
+                    <option value="5years">5 Years Ago</option>
+                </select>
+                <canvas wire:ignore class="mt-2" id="paymentDoughnutChart" width="400" height="400" style="width:400px"></canvas>
             </div>
-            <div class="col-4">
-                <canvas id="paymentDoughnutChart" width="400" height="400"></canvas>
-            </div> --}}
+            <div class="mt-5">
+                <div class="mb-3">
+                    <label for="startDatePiePayment" class="form-label">Start Date</label>
+                    <input  wire:model='startDatePiePayment' wire:change='customFilterPiePayment' type="date" id="startDate" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="endDatePiePayment" class="form-label">End Date</label>
+                    <input wire:model='endDatePiePayment' wire:change='customFilterPiePayment' id="endDate" type="date" class="form-control">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -221,4 +236,57 @@
 
 </script>
 
+{{-- {{ dd($profitByPayment->pluck('total_profit')) }} --}}
+<script>
+    var paymentLabels = @json($paymentLabels);
+    var profitByPayment = @json($profitByPayment->pluck('total_profit'));
+
+    var colors = ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'];
+
+    function drawPiePaymentChart(paymentLabels, profitByPayment) {
+        // Hancurkan chart yang ada jika sudah ada sebelumnya
+        if (window.transactionByPayment) {
+            window.transactionByPayment.destroy();
+        }
+
+        // Membuat chart menggunakan Chart.js sebagai Line Chart
+        var ctx3 = document.getElementById('paymentDoughnutChart').getContext('2d');
+        window.transactionByPayment = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: paymentLabels,
+                datasets: [{
+                    data: profitByPayment,
+                    backgroundColor: colors // Warna untuk setiap bagian pie chart
+                }]
+            },
+            options: {
+                responsive: true, // Membuat chart responsif
+                plugins: {
+                    legend: {
+                        position: 'top', // Menampilkan legenda di atas chart
+                    },
+                    datalabels: {
+                    color: '#fff', // Warna teks label
+                    display: true, // Menampilkan label
+                   }
+                }
+            }
+        });
+    }
+    console.log(paymentLabels)
+    console.log(profitByPayment)
+    // Fungsi untuk menginisialisasi chart pertama kali
+    drawPiePaymentChart(paymentLabels, profitByPayment)
+
+    // Panggil fungsi untuk menggambar chart pada saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fungsi untuk mengupdate chart saat menerima emit event dari Livewire
+        Livewire.on('pieTransactionByPayment', data => {
+            console.log('Chart updated with data:', data); // Tambahkan log untuk melihat data yang diterima dari Livewire
+            drawPiePaymentChart(data.paymentLabels, data.profitByPayment);
+        });
+    });
+
+</script>
 

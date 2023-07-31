@@ -142,3 +142,20 @@
         position: relative; /* Tambahkan ini agar z-index bekerja dengan benar pada gambar */
     }
 
+
+    /* TODO: */
+    .text-small {
+        font-size: 12px;
+    }
+
+    .text-medium {
+        font-size: 16px;
+    }
+
+    .text-big {
+        font-size: 24px;
+    }
+
+    .text-xl {
+        font-size: 32px;
+    }

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Member;
+use App\Models\Payment;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -13,14 +14,22 @@ class DashboardShow extends Component
     public $years, $totals, $transactions, $timerangeTransaction = '', $test;
     public $startDate = '', $endDate = '';
     public $startDatePieMajor = '', $endDatePieMajor = '';
+    public $startDatePieMember = '', $endDatePieMember = '';
+    public $startDatePiePayment = '', $endDatePiePayment = '';
     public $labels, $datasets;
+    public $profitByPayment;
     public $filterProfitByMember;
+    public $filterProfitByPayment;
 
     // Lifecycle hook untuk menginisialisasi data pada saat komponen dimuat pertama kali
     public function mount()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $this->getTransactions();
         $this->profitByMember();
+        $this->profitByPayment();
+
+
     }
 
     public function render()
@@ -31,6 +40,9 @@ class DashboardShow extends Component
             'total' => $this->transactions->pluck('total_profit'),
             'labels' => $this->labels,
             'datasets' => $this->datasets,
+            // dd($this->profitByPayment)
+            'paymentLabels' => $this->profitByPayment->pluck('name'),
+            'profitByPayment' => $this->profitByPayment,
         ]);
     }
 
@@ -190,10 +202,9 @@ class DashboardShow extends Component
         ]);
     }
 
-
     public function filterTransactions()
     {
-        if (($this->timerangeTransaction == 'all' || $this->timerangeTransaction == '') && ($this->startDate == "" && $this->endDate == "")) {
+        if (($this->timerangeTransaction == null || $this->timerangeTransaction == '') && ($this->startDate == "" && $this->endDate == "")) {
             $this->transactionsByYear();
         } else if ($this->timerangeTransaction == '7days') {
             $this->transactionsLast7Days();
@@ -205,51 +216,58 @@ class DashboardShow extends Component
             $this->transactions1Year();
         } else if ($this->timerangeTransaction == '5years') {
             $this->transactions5YearAgo();
-        } else if ($this->startDate != "" && $this->endDate != "") {
-            $this->customFilterTransactions();
         } else {
             $this->transactionsByYear();
+        }
+
+        if($this->startDate != "" && $this->endDate != "") {
+            $this->startDate = "";
+            $this->endDate = "";
         }
     }
 
     public function customFilterTransactions()
     {
-        $query = DB::table('transactions')
-        ->select(DB::raw('DATE(date) as date'), DB::raw('SUM(total_profit) as total_profit'));
+        if($this->startDate != "" && $this->endDate != "") {
+            $this->timerangeTransaction = '';
 
-        if ($this->startDate && $this->endDate) {
-            // Jika start date dan end date sudah diisi, tambahkan kondisi whereBetween pada query
-            $query->whereBetween('date', [$this->startDate, $this->endDate]);
-        }
+            $query = DB::table('transactions')
+            ->select(DB::raw('DATE(date) as date'), DB::raw('SUM(total_profit) as total_profit'));
 
-        $this->transactions = $query
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->get();
-
-        // Inisialisasi array untuk menyimpan hasil akhir
-        $results = [];
-
-        foreach ($this->transactions as $transaction) {
-            $date = $transaction->date;
-            $totalProfit = $transaction->total_profit;
-
-            // Jika tanggal sudah ada di hasil akhir, tambahkan total profitnya
-            if (isset($results[$date])) {
-                $results[$date] += $totalProfit;
-            } else {
-                $results[$date] = $totalProfit;
+            if ($this->startDate && $this->endDate) {
+                // Jika start date dan end date sudah diisi, tambahkan kondisi whereBetween pada query
+                $query->whereBetween('date', [$this->startDate, $this->endDate]);
             }
+
+            $this->transactions = $query
+                ->groupBy('date')
+                ->orderBy('date', 'asc')
+                ->get();
+
+            // Inisialisasi array untuk menyimpan hasil akhir
+            $results = [];
+
+            foreach ($this->transactions as $transaction) {
+                $date = $transaction->date;
+                $totalProfit = $transaction->total_profit;
+
+                // Jika tanggal sudah ada di hasil akhir, tambahkan total profitnya
+                if (isset($results[$date])) {
+                    $results[$date] += $totalProfit;
+                } else {
+                    $results[$date] = $totalProfit;
+                }
+            }
+
+            // Ubah hasil akhir menjadi dua array terpisah untuk interval dan totals
+            $intervals = array_keys($results);
+            $totals = array_values($results);
+
+            $this->emit('transactionLineChartUpdated', [
+                'intervals' => $intervals,
+                'totals' => $totals,
+            ]);
         }
-
-        // Ubah hasil akhir menjadi dua array terpisah untuk interval dan totals
-        $intervals = array_keys($results);
-        $totals = array_values($results);
-
-        $this->emit('transactionLineChartUpdated', [
-            'intervals' => $intervals,
-            'totals' => $totals,
-        ]);
     }
 
 
@@ -269,12 +287,12 @@ class DashboardShow extends Component
          ]);
     }
 
+
     public function filterPieTransactionByMajor()
     {
         // dd($this->filterProfitByMember);
-        if(($this->filterProfitByMember == null) &&  ($this->startDatePieMajor == "" && $this->endDatePieMajor == "")) {
+        if(($this->filterProfitByMember == null || $this->filterProfitByMember == '')) {
             $this->profitByMember();
-            // dd('dasd');
         }else if($this->filterProfitByMember == '5years') {
             $this->PieMajor5YearsAgo();
         }else if($this->filterProfitByMember == '1year') {
@@ -285,11 +303,13 @@ class DashboardShow extends Component
             $this->PieMajor1MonthAgo();
         }else if($this->filterProfitByMember == '7days') {
             $this->PieMajor7DaysAgo();
-        }else if($this->startDatePieMajor != '' && $this->endDatePieMajor != '' ) {
-            $this->customFilterPieMajor();
-            // dd("hehe");
         }else {
             $this->profitByMember();
+        }
+
+        if($this->startDatePieMajor != '' && $this->endDatePieMajor != '') {
+            $this->startDatePieMajor = '';
+            $this->endDatePieMajor = '';
         }
     }
 
@@ -386,15 +406,179 @@ class DashboardShow extends Component
     public function customFilterPieMajor()
     {
         // dd($this->startDatePieMajor, $this->endDatePieMajor);
-        $data = Member::join('transactions', 'members.id', '=', 'transactions.member_id')
-        ->select('members.major', DB::raw('SUM(transactions.total_profit) as total_profit'))
-        ->whereBetween('transactions.date', [$this->startDatePieMajor, $this->endDatePieMajor])
-        ->groupBy('members.major')
+        if($this->startDatePieMajor != '' && $this->endDatePieMajor != '') {
+            $this->filterProfitByMember = '';
+            $data = Member::join('transactions', 'members.id', '=', 'transactions.member_id')
+            ->select('members.major', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->whereBetween('transactions.date', [$this->startDatePieMajor, $this->endDatePieMajor])
+            ->groupBy('members.major')
+            ->get();
+
+            $this->emit('pieTransactionMajorChartUpdated', [
+                'labels' => $data->pluck('major'),
+                'datasets' => $data->pluck('total_profit'),
+            ]);
+        }
+    }
+
+
+    public function profitByPayment()
+    {
+        $this->profitByPayment = Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+            ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->groupBy('payments.name')
+            ->get();
+
+        $this->emit('pieTransactionByPayment', [
+                'paymentLabels' => $this->profitByPayment->pluck('name'),
+                'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
+         ]);
+    }
+
+    public function filterPieTransactionByPayment()
+    {
+        if ($this->filterProfitByPayment == '5years') {
+            $this->PiePayment5YearsAgo();
+        } else if ($this->filterProfitByPayment == '1year') {
+            $this->PiePayment1YearAgo();
+        } else if ($this->filterProfitByPayment == '3months') {
+            $this->PiePayment3MonthsAgo();
+        } else if ($this->filterProfitByPayment == '1month') {
+            $this->PiePayment1MonthAgo();
+        } else if ($this->filterProfitByPayment == '7days') {
+            $this->PiePayment7DaysAgo();
+        } else {
+            $this->profitByPayment();
+        }
+
+        if($this->startDatePiePayment != '' && $this->endDatePiePayment != '') {
+            $this->startDatePiePayment = '';
+            $this->endDatePiePayment = '';
+        }
+    }
+
+
+
+
+    public function PiePayment5YearsAgo()
+    {
+        // dd('sdadas');
+        $thisYear = date('Y');
+        $fiveYearAgo = $thisYear - 5;
+
+
+        $this->profitByPayment = Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+            ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->whereYear('transactions.date', '>', $fiveYearAgo)
+            ->whereYear('transactions.date', '<=', $fiveYearAgo+5)
+            ->groupBy('payments.name')
+            ->get();
+
+        $this->emit('pieTransactionByPayment', [
+                'paymentLabels' => $this->profitByPayment->pluck('name'),
+                'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
+         ]);
+    }
+
+    public function PiePayment1YearAgo()
+    {
+        $thisYear = date('Y');
+
+        $this->profitByPayment = Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+            ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->whereYear('transactions.date', '=', $thisYear)
+            ->groupBy('payments.name')
+            ->get();
+
+        $this->emit('pieTransactionByPayment', [
+                'paymentLabels' => $this->profitByPayment->pluck('name'),
+                'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
+         ]);
+    }
+
+    public function PiePayment3MonthsAgo()
+    {
+        $thisYear = date('Y');
+        $threeMonthsAgo = Carbon::now()->subMonths(3)->format('m');
+
+        // dd($thisYear, $threeMonthsAgo);
+        // Jika bulan saat ini kurang dari 3, maka kurangi 3 bulan dari tahun saat ini
+        if ($threeMonthsAgo <= 0) {
+            $threeMonthsAgo += 12;
+            $thisYear--;
+        }
+
+        $this->profitByPayment = Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+            ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->whereYear('transactions.date', '=', $thisYear)
+            ->whereMonth('transactions.date', '>=', $threeMonthsAgo)
+            ->whereMonth('transactions.date', '<=', $threeMonthsAgo+3)
+            ->groupBy('payments.name')
+            ->get();
+
+        $this->emit('pieTransactionByPayment', [
+                'paymentLabels' => $this->profitByPayment->pluck('name'),
+                'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
+         ]);
+    }
+
+
+    public function PiePayment1MonthAgo()
+    {
+        $thisMonth = date('m');
+        $thisYear = date('Y');
+//
+        // dd($thisYear, $thisMonth);
+
+        $this->profitByPayment = Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+            ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->whereYear('transactions.date', '=', $thisYear)
+            ->whereMonth('transactions.date', '=', $thisMonth)
+            ->groupBy('payments.name')
+            ->get();
+
+        $this->emit('pieTransactionByPayment', [
+                'paymentLabels' => $this->profitByPayment->pluck('name'),
+                'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
+         ]);
+    }
+
+
+    public function PiePayment7DaysAgo()
+    {
+        $endDate = Carbon::now(); // Tanggal saat ini
+        $startDate = Carbon::now()->subDays(7); // Tanggal 7 hari yang lalu
+        // dd($startDate, $endDate);
+        // dd($startDate);
+        $this->profitByPayment =  Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+        ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+        ->whereBetween('transactions.date', [$startDate, $endDate])
+        ->groupBy('payments.name')
         ->get();
 
-        $this->emit('pieTransactionMajorChartUpdated', [
-            'labels' => $data->pluck('major'),
-            'datasets' => $data->pluck('total_profit'),
+        $this->emit('pieTransactionByPayment', [
+            'paymentLabels' => $this->profitByPayment->pluck('name'),
+            'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
         ]);
     }
+
+    public function customFilterPiePayment()
+    {
+        // dd($this->startDatePiePayment, $this->endDatePiePayment);
+        if($this->startDatePiePayment != '' && $this->endDatePiePayment != '') {
+            // dd($this->startDatePiePayment, $this->endDatePiePayment);
+            $this->filterProfitByPayment = '';
+            $this->profitByPayment =  Payment::join('transactions', 'payments.id', '=', 'transactions.payment_id')
+            ->select('payments.name', DB::raw('SUM(transactions.total_profit) as total_profit'))
+            ->whereBetween('transactions.date', [$this->startDatePiePayment, $this->endDatePiePayment])
+            ->groupBy('payments.name')
+            ->get();
+
+            $this->emit('pieTransactionByPayment', [
+                'paymentLabels' => $this->profitByPayment->pluck('name'),
+                'profitByPayment' => $this->profitByPayment->pluck('total_profit'),
+            ]);
+        }
+    }
+
 }

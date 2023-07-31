@@ -31,7 +31,7 @@ class HistoryTransactionShow extends Component
 
     public function getTransactions()
     {
-        $query = Transaction::with(['users', 'members', 'status', 'payments'])->orderByDesc('id');
+        $query = Transaction::with(['users', 'members', 'status', 'payments'])->orderByDesc('date');
 
         if ($this->user_id_filter > 0) {
             $query->where('user_id', $this->user_id_filter);

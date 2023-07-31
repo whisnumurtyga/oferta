@@ -16,7 +16,7 @@ class TransactionsSeeder extends Seeder
     public function run()
     {
         $currentYear = Carbon::now()->year;
-        $currentMonth = Carbon::now()->month;
+        $currentMonth = Carbon::now()->month-2;
 
         // Seed data 7 tahun ke belakang
         for ($year = $currentYear - 7; $year <= $currentYear; $year++) {
